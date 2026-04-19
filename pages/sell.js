@@ -202,7 +202,7 @@ export default function Sell() {
                   Both plans include 0% transaction fees. Cancel anytime.
                 </p>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 32 }}>
+                <div className="pricing-grid" style={{ marginBottom: 32 }}>
                   <PlanCard
                     name="Starter"
                     price="49"
@@ -282,7 +282,7 @@ export default function Sell() {
                   <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '28px', marginBottom: 20 }}>
                     <p style={{ fontWeight: 700, color: 'var(--text)', marginBottom: 20, fontSize: '0.95rem' }}>Card Identity</p>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                    <div className="form-row">
                       <FormField label="Player / Subject" required>
                         <input className="input" placeholder="e.g. Patrick Mahomes" value={form.player} onChange={set('player')} style={inputStyle('player')} />
                         {errors.player && <p style={{ color: 'var(--red)', fontSize: '0.75rem', marginTop: 4 }}>{errors.player}</p>}
@@ -323,7 +323,7 @@ export default function Sell() {
                   <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '28px', marginBottom: 20 }}>
                     <p style={{ fontWeight: 700, color: 'var(--text)', marginBottom: 20, fontSize: '0.95rem' }}>Grading</p>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                    <div className="form-row">
                       <FormField label="Grading Company" required>
                         <select className="input" value={form.grader} onChange={e => { set('grader')(e); setForm(f => ({ ...f, grader: e.target.value, grade: '' })); }} style={inputStyle('grader')}>
                           <option value="">Select grader…</option>

@@ -285,7 +285,7 @@ export default function HowItWorks() {
                 Our team of sports card specialists performs a comprehensive multi-point inspection on every card that passes through our Authentication Center.
               </p>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+              <div className="auth-checks-grid">
                 <div style={{
                   background: 'var(--bg-3)',
                   border: '1px solid var(--border)',

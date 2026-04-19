@@ -146,7 +146,7 @@ export default function Listing({ card }) {
           </div>
 
           <div className="container" style={{ padding: '40px 24px' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.2fr', gap: 48, alignItems: 'start' }}>
+            <div className="listing-grid">
 
               {/* Left: Card Visual */}
               <div>
@@ -261,9 +261,11 @@ export default function Listing({ card }) {
                 </div>
 
                 <div style={{ display: 'flex', gap: 12, marginBottom: 24 }}>
-                  <button className="btn btn-primary" style={{ flex: 1, justifyContent: 'center', fontSize: '1rem', padding: '14px' }}>
-                    Buy Now — ${card.price.toLocaleString()}
-                  </button>
+                  <Link href={`/checkout/${card.id}`} passHref>
+                    <a className="btn btn-primary" style={{ flex: 1, justifyContent: 'center', fontSize: '1rem', padding: '14px', display: 'flex' }}>
+                      Buy Now — ${card.price.toLocaleString()}
+                    </a>
+                  </Link>
                   <button className="btn btn-outline" style={{ flex: 1, justifyContent: 'center' }}>
                     Make Offer
                   </button>
@@ -306,7 +308,11 @@ export default function Listing({ card }) {
                       {card.seller[0]}
                     </div>
                     <div>
-                      <p style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text)' }}>{card.seller}</p>
+                      <Link href={`/seller/${encodeURIComponent(card.seller)}`} passHref>
+                        <a style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--gold)', textDecoration: 'none' }}>
+                          {card.seller}
+                        </a>
+                      </Link>
                       <p style={{ fontSize: '0.78rem', color: 'var(--text-4)' }}>
                         ★ {card.sellerRating} · {card.sellerSales.toLocaleString()} sales
                       </p>
@@ -328,7 +334,7 @@ export default function Listing({ card }) {
                 <h2 style={{ fontWeight: 800, fontSize: '1.3rem', letterSpacing: '-0.01em', marginBottom: 24 }}>
                   More {card.sport} Cards
                 </h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16 }}>
+                <div className="similar-grid">
                   {similar.map(c => <SimilarCard key={c.id} card={c} />)}
                 </div>
               </div>

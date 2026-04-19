@@ -206,9 +206,9 @@ export default function Marketplace() {
             </div>
           </div>
 
-          <div className="container" style={{ display: 'flex', gap: 28, padding: '28px 24px', alignItems: 'flex-start' }}>
+          <div className="container marketplace-layout">
             {/* Sidebar */}
-            <aside style={{ width: 220, flexShrink: 0, position: 'sticky', top: 80 }}>
+            <aside className="marketplace-sidebar">
               <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--radius)', padding: '20px' }}>
                 <p style={{ fontWeight: 700, fontSize: '0.8rem', color: 'var(--text-3)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 20 }}>
                   Filters

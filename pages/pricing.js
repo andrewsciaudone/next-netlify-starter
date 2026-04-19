@@ -101,13 +101,7 @@ export default function Pricing() {
           {/* Plans */}
           <section style={{ padding: '64px 0' }}>
             <div className="container">
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: 24,
-                maxWidth: 860,
-                margin: '0 auto',
-              }}>
+              <div className="pricing-grid">
                 {/* Starter */}
                 <div style={{
                   background: 'var(--bg-3)',

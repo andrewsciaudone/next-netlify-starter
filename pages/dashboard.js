@@ -100,7 +100,7 @@ export default function Dashboard() {
             </div>
 
             {/* Stats grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 32 }}>
+            <div className="dashboard-stats" style={{ marginBottom: 32 }}>
               <StatCard label="Active Listings" value={usedListings} sub={SELLER.plan === 'starter' ? `of ${SELLER.planLimit} included` : 'Unlimited (Pro)'} />
               <StatCard label="Total Sales" value={SELLER.totalSales} sub="All time" />
               <StatCard label="Recent Revenue" value={`$${totalRevenue.toLocaleString()}`} sub="Last 30 days · 0% fees" accent="var(--green)" />
@@ -140,7 +140,7 @@ export default function Dashboard() {
               </div>
             )}
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
+            <div className="dashboard-content">
 
               {/* Active Listings */}
               <div>
@@ -303,7 +303,7 @@ export default function Dashboard() {
               padding: '24px',
             }}>
               <p style={{ fontWeight: 700, fontSize: '0.88rem', color: 'var(--text)', marginBottom: 16 }}>Tips to sell faster</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+              <div className="steps-grid">
                 {[
                   ['Write detailed descriptions', 'Cards with condition notes, centering details, and eye-appeal descriptions get 40% more views.'],
                   ['Price competitively', 'Check the last sale prices on similar cards. Pricing within 5–10% of market value leads to faster sales.'],

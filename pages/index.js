@@ -216,7 +216,7 @@ export default function Home() {
             padding: '40px 0',
           }}>
             <div className="container">
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 24 }}>
+              <div className="stats-grid">
                 <StatBox value="0%" label="Marketplace Fees" />
                 <StatBox value="48hr" label="Authentication Turnaround" />
                 <StatBox value="10,000+" label="Cards Listed" />
@@ -239,7 +239,7 @@ export default function Home() {
                   Every card, fully authenticated
                 </h2>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 40 }}>
+              <div className="steps-grid">
                 <Step num="1" title="Seller Lists" desc="Sellers list their graded cards on VaultLink. Subscription covers 50 or unlimited listings." />
                 <Step num="2" title="Buyer Purchases" desc="Buyers browse and purchase with confidence — no hidden fees added to any transaction." />
                 <Step num="3" title="Card Verified" desc="Seller ships to our Authentication Center. Our expert team verifies every card in 48 hours." />
@@ -267,7 +267,7 @@ export default function Home() {
                   <a className="btn btn-outline btn-sm">View all →</a>
                 </Link>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+              <div className="cards-grid">
                 {featured.map(card => <CardPreview key={card.id} card={card} />)}
               </div>
             </div>
@@ -292,7 +292,7 @@ export default function Home() {
                 </p>
               </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, maxWidth: 800, margin: '0 auto' }}>
+              <div className="pricing-grid">
                 {/* Starter */}
                 <div style={{ background: 'var(--bg-3)', border: '1px solid var(--border)', borderRadius: 'var(--radius-lg)', padding: '36px 32px' }}>
                   <p style={{ fontWeight: 600, color: 'var(--text-3)', marginBottom: 8 }}>Starter</p>

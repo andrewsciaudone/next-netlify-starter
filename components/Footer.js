@@ -16,12 +16,7 @@ export default function Footer() {
       padding: '48px 0 32px',
     }}>
       <div className="container">
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '2fr 1fr 1fr 1fr',
-          gap: 40,
-          marginBottom: 48,
-        }}>
+        <div className="footer-grid">
           {/* Brand */}
           <div>
             <Link href="/" passHref>
@@ -80,7 +75,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div style={{
+        <div className="footer-bottom" style={{
           borderTop: '1px solid var(--border)',
           paddingTop: 24,
           display: 'flex',
