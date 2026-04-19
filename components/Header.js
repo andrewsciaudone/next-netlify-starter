@@ -67,11 +67,11 @@ export default function Header() {
 
         {/* CTA */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <Link href="/marketplace" passHref>
-            <a className="btn btn-ghost btn-sm">Sign In</a>
+          <Link href="/dashboard" passHref>
+            <a className="btn btn-ghost btn-sm">Dashboard</a>
           </Link>
-          <Link href="/pricing" passHref>
-            <a className="btn btn-primary btn-sm">Start Selling</a>
+          <Link href="/sell" passHref>
+            <a className="btn btn-primary btn-sm">+ List a Card</a>
           </Link>
         </div>
       </div>
