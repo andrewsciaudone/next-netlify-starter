@@ -3,71 +3,84 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FLOW, flowIndex } from "@/lib/flow";
 import { useStore } from "@/lib/store";
-
-export const NAV = [
-  { href: "/uniforms", label: "Uniforms", no: "01" },
-  { href: "/build", label: "Build Your Uniform", no: "02" },
-  { href: "/archive", label: "Archive", no: "03" },
-  { href: "/record", label: "Your Record", no: "04" },
-];
 
 export function Header() {
   const path = usePathname();
-  const { count, hydrated, setDrawerOpen } = useStore();
+  const { count, hydrated } = useStore();
   const [menu, setMenu] = useState(false);
+  const current = flowIndex(path);
 
   useEffect(() => setMenu(false), [path]);
   useEffect(() => {
     document.body.style.overflow = menu ? "hidden" : "";
   }, [menu]);
 
-  const active = (href: string) => path === href || path.startsWith(href + "/");
   const issueCount = hydrated ? String(count).padStart(2, "0") : "00";
+  const middle = FLOW.slice(1, 4);
 
   return (
     <>
-      <header className="sticky top-0 z-40 border-b rule bg-paper/95 backdrop-blur-[2px]">
+      <header className="sticky top-0 z-40 bg-paper/95 backdrop-blur-[2px]">
         <div className="shell flex h-14 items-center justify-between gap-6">
-          <Link href="/" className="text-[0.8125rem] font-semibold tracking-[0.22em] whitespace-nowrap">
+          <Link href="/" className="whitespace-nowrap text-[0.8125rem] font-semibold tracking-[0.22em]">
             FINEST UNIFORM
           </Link>
 
           <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
-            {NAV.map((n) => (
-              <Link
-                key={n.href}
-                href={n.href}
-                aria-current={active(n.href) ? "page" : undefined}
-                className="group flex items-baseline gap-1.5 text-[0.6875rem] font-medium uppercase tracking-[0.14em]"
-              >
-                <span className="font-mono text-[0.5625rem] text-muted transition-colors group-hover:text-ink">{n.no}</span>
-                <span className="ulink" aria-current={active(n.href) ? "page" : undefined}>
-                  {n.label}
-                </span>
-              </Link>
-            ))}
+            {middle.map((n) => {
+              const on = FLOW[current].href === n.href;
+              return (
+                <Link
+                  key={n.href}
+                  href={n.href}
+                  className="group flex items-baseline gap-1.5 text-[0.6875rem] font-medium uppercase tracking-[0.14em]"
+                >
+                  <span className="font-mono text-[0.5625rem] text-muted transition-colors group-hover:text-ink">{n.no}</span>
+                  <span className="ulink" aria-current={on ? "page" : undefined}>
+                    {n.label}
+                  </span>
+                </Link>
+              );
+            })}
           </nav>
 
           <div className="flex items-center gap-5">
-            <button
-              onClick={() => setDrawerOpen(true)}
+            <Link
+              href="/issue"
               className="group flex items-baseline gap-1.5 text-[0.6875rem] font-medium uppercase tracking-[0.14em]"
             >
               <span className="hidden font-mono text-[0.5625rem] text-muted sm:inline">05</span>
-              <span className="ulink">Your Issue</span>
+              <span className="ulink" aria-current={current === 4 ? "page" : undefined}>
+                Your Issue
+              </span>
               <span className="font-mono text-[0.6875rem] tabular-nums">({issueCount})</span>
-            </button>
+            </Link>
             <button
               onClick={() => setMenu((m) => !m)}
               className="flex h-8 w-8 flex-col items-end justify-center gap-[5px] lg:hidden"
               aria-label={menu ? "Close menu" : "Open menu"}
               aria-expanded={menu}
             >
-              <span className={`block h-px bg-ink transition-all duration-300 ${menu ? "w-5 translate-y-[3px] rotate-45" : "w-5"}`} />
+              <span className={`block h-px w-5 bg-ink transition-all duration-300 ${menu ? "translate-y-[3px] rotate-45" : ""}`} />
               <span className={`block h-px bg-ink transition-all duration-300 ${menu ? "w-5 -translate-y-[3px] -rotate-45" : "w-3"}`} />
             </button>
           </div>
+        </div>
+
+        {/* Where you are in the path: five segments, filled up to the current step */}
+        <div className="shell">
+          <ol className="grid grid-cols-5 gap-1" aria-label="Progress">
+            {FLOW.map((s, i) => (
+              <li key={s.href} className="relative h-px bg-rule">
+                <span
+                  className="absolute inset-y-0 left-0 bg-ink transition-all duration-700 ease-[cubic-bezier(0.2,0.7,0.1,1)]"
+                  style={{ width: i <= current ? "100%" : "0%" }}
+                />
+              </li>
+            ))}
+          </ol>
         </div>
       </header>
 
@@ -77,8 +90,8 @@ export function Header() {
         }`}
         aria-hidden={!menu}
       >
-        <nav className="shell flex h-full flex-col pt-6 pb-10" aria-label="Mobile">
-          {[...NAV, { href: "/issue", label: "Your Issue", no: "05" }].map((n, i) => (
+        <nav className="shell flex h-full flex-col pb-10 pt-6" aria-label="Mobile">
+          {FLOW.map((n, i) => (
             <Link
               key={n.href}
               href={n.href}
@@ -91,14 +104,11 @@ export function Header() {
                 transform: menu ? "none" : "translateY(6px)",
               }}
             >
-              <span className="label text-muted">{n.no}</span>
+              <span className={`label ${i === current ? "text-ink" : "text-muted"}`}>{n.no}</span>
               <span className="text-2xl font-medium tracking-tight">{n.label}</span>
             </Link>
           ))}
-          <div className="mt-auto grid grid-cols-2 gap-4 label text-muted">
-            <span>Issue 01 / 09.26</span>
-            <span className="text-right">Made in Portugal</span>
-          </div>
+          <p className="label mt-auto text-muted">Issue 01 / 09.26 — Made in Portugal</p>
         </nav>
       </div>
     </>

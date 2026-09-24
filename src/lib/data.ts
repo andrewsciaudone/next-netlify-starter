@@ -119,7 +119,7 @@ export const PRODUCTS: Product[] = [
     fitNote:
       "Cut to finish at the belt line. Take your usual size for the intended fit; one size down for a closer chest.",
     label: ["FINEST UNIFORM", "FORM NO. 001", "COTTON JERSEY", "STANDARD ISSUE"],
-    compatible: ["002", "004", "005"],
+    compatible: ["002", "003"],
   },
   {
     id: "002",
@@ -171,7 +171,7 @@ export const PRODUCTS: Product[] = [
     model: "Model is 186 cm / 78 kg. Wears M.",
     fitNote: "Cut to sit over 001 without pulling. Take your usual size.",
     label: ["FINEST UNIFORM", "FORM NO. 002", "LOOPBACK COTTON", "STANDARD ISSUE"],
-    compatible: ["001", "004", "005"],
+    compatible: ["001"],
   },
   {
     id: "003",
@@ -223,140 +223,21 @@ export const PRODUCTS: Product[] = [
     model: "Model is 186 cm / 78 kg. Wears M.",
     fitNote: "Same block as 002, with 1 cm added to the chest for ease over layers.",
     label: ["FINEST UNIFORM", "FORM NO. 003", "LOOPBACK COTTON", "STANDARD ISSUE"],
-    compatible: ["001", "004", "005"],
-  },
-  {
-    id: "004",
-    name: "Tailored Trouser",
-    kind: "trouser",
-    slot: "bottom",
-    price: 245,
-    issue: "04",
-    issueDate: "03.27",
-    issueMonth: "March 2027",
-    status: "pre-issue",
-    dispatch: "Dispatches 03.27",
-    statement:
-      "The Finest Form trouser block, rebuilt for a jersey and a pair of trainers.",
-    purpose: "Daily trouser. The constant beneath every top.",
-    form: "Single pleat / full hip / tapered leg / cropped at the ankle.",
-    material: "340gsm wool-cotton twill.",
-    weight: "340 gsm",
-    fibre: "62% wool, 38% cotton",
-    construction: [
-      "Extended waistband, side adjusters",
-      "Single forward pleat",
-      "Pressed crease, bar-tacked",
-      "Unfinished hem on request",
-    ],
-    origin: "Made in Italy",
-    mill: "Twill woven in Biella",
-    care: ["Dry clean or cool hand wash", "Hang to dry", "Steam, do not press flat"],
-    colours: [COLOURS.charcoal, COLOURS.navy, COLOURS.stone, COLOURS.black],
-    sizes: WAIST_SIZES,
-    measurementPoints: [
-      { key: "A", label: "Waist, ½" },
-      { key: "B", label: "Rise, front" },
-      { key: "C", label: "Thigh, ½" },
-      { key: "D", label: "Inseam" },
-      { key: "E", label: "Leg opening, ½" },
-    ],
-    measurements: {
-      "28": [36, 29, 31, 76, 18.5],
-      "30": [38.5, 29.5, 32, 76, 19],
-      "32": [41, 30, 33, 77, 19.5],
-      "34": [43.5, 30.5, 34, 77, 20],
-      "36": [46, 31, 35, 78, 20.5],
-      "38": [48.5, 31.5, 36, 78, 21],
-    },
-    model: "Model is 186 cm / 78 kg. Wears 32.",
-    fitNote: "Sits on the natural waist. Hem finishes just above the ankle bone.",
-    label: ["FINEST UNIFORM", "FORM NO. 004", "WOOL-COTTON TWILL", "STANDARD ISSUE"],
-    compatible: ["001", "002", "005"],
-  },
-  {
-    id: "005",
-    name: "Field Overshirt",
-    kind: "overshirt",
-    slot: "outer",
-    price: 365,
-    issue: "05",
-    issueDate: "05.27",
-    issueMonth: "May 2027",
-    status: "pre-issue",
-    dispatch: "Dispatches 05.27",
-    statement: "An overshirt that does the job of a jacket, eight months a year.",
-    purpose: "Outer layer. Over 001 or 002.",
-    form: "Straight body / two-piece sleeve / bellowed chest pockets.",
-    material: "12oz cotton drill.",
-    weight: "12 oz",
-    fibre: "100% cotton drill",
-    construction: [
-      "Corozo buttons, hand-sewn",
-      "Bellowed chest pockets with flaps",
-      "Felled seams throughout",
-      "Garment dyed",
-    ],
-    origin: "Made in Portugal",
-    mill: "Drill woven in Guimarães",
-    care: ["Wash cold, 30°C", "Line dry", "Iron while damp"],
-    colours: [COLOURS.navy, COLOURS.olive, COLOURS.stone],
-    sizes: TOP_SIZES,
-    measurementPoints: [
-      { key: "A", label: "Chest, ½" },
-      { key: "B", label: "Body length, HPS" },
-      { key: "C", label: "Shoulder" },
-      { key: "D", label: "Sleeve length" },
-      { key: "E", label: "Cuff" },
-    ],
-    measurements: {
-      XS: [56, 70, 46, 62, 24],
-      S: [58, 71.5, 48, 63, 24.5],
-      M: [60, 73, 50, 64, 25],
-      L: [62.5, 74.5, 52, 65, 25.5],
-      XL: [65, 76, 54, 66, 26],
-      XXL: [67.5, 77.5, 56, 67, 26.5],
-    },
-    model: "Model is 186 cm / 78 kg. Wears M.",
-    fitNote: "Sized to layer over 002. Take your usual size.",
-    label: ["FINEST UNIFORM", "FORM NO. 005", "COTTON DRILL", "STANDARD ISSUE"],
-    compatible: ["001", "002", "004"],
+    compatible: ["001"],
   },
 ];
 
-// Archived forms: permanently catalogued, no longer issued.
-export const ARCHIVED: Product[] = [
-  {
-    ...PRODUCTS[0],
-    id: "000",
-    name: "Prototype Jersey",
-    price: 78,
-    issue: "00",
-    issueDate: "03.26",
-    issueMonth: "March 2026",
-    status: "fully-issued",
-    edition: "Edition of 200",
-    statement:
-      "The first pattern. 200 pieces, issued to friends of Finest Form to wear and report back.",
-    purpose: "Field test.",
-    form: "Standard body / set-in sleeve. Superseded by 001.",
-    material: "240gsm cotton jersey.",
-    weight: "240 gsm",
-    colours: [COLOURS.undyed],
-    label: ["FINEST UNIFORM", "FORM NO. 000", "PROTOTYPE", "FIELD ISSUE"],
-    compatible: [],
-  },
-];
-
-export const ALL_FORMS: Product[] = [...ARCHIVED, ...PRODUCTS];
 
 export function getProduct(id: string): Product | undefined {
-  return ALL_FORMS.find((p) => p.id === id);
+  return PRODUCTS.find((p) => p.id === id);
 }
 
 export function getColour(product: Product, colourId: string): Colour {
   return product.colours.find((c) => c.id === colourId) ?? product.colours[0];
 }
+
+/** Tailored trouser used for styling in figures. Not sold in this prototype. */
+export const TROUSER = { kind: "trouser" as GarmentKind, hex: COLOURS.charcoal.hex };
 
 export const FOUNDATIONS = PRODUCTS.map((p) => p.id);
 
@@ -417,27 +298,6 @@ export const DEFAULT_ISSUED: IssuedGarment[] = [
     issuedAt: "2026-09-08",
     orderNo: "IS-26-0117",
     wears: 9,
-  },
-];
-
-// A few garments that exist outside this customer's record — so a scanned
-// tag always resolves, even for pieces that were never issued to them.
-export const REGISTRY: IssuedGarment[] = [
-  {
-    garmentNo: "001-26-00001",
-    productId: "001",
-    colour: "black",
-    size: "M",
-    issuedAt: "2026-09-01",
-    orderNo: "IS-26-0001",
-  },
-  {
-    garmentNo: "000-26-00017",
-    productId: "000",
-    colour: "undyed",
-    size: "L",
-    issuedAt: "2026-03-14",
-    orderNo: "FT-26-0004",
   },
 ];
 

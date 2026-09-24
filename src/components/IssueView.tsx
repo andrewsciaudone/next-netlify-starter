@@ -3,10 +3,42 @@
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { fmtPrice, getColour, getProduct } from "@/lib/data";
-import { useStore, type CompletedOrder } from "@/lib/store";
-import { IssueLineRow } from "./IssueDrawer";
+import { useStore, type CompletedOrder, type IssueLine } from "@/lib/store";
+import { Stepper } from "./ui";
 import { GarmentSVG } from "./garments";
 import { Action } from "./ui";
+
+export function IssueLineRow({ line, compact }: { line: IssueLine; compact?: boolean }) {
+  const { setQty, removeLine } = useStore();
+  const p = getProduct(line.productId);
+  if (!p) return null;
+  const c = getColour(p, line.colour);
+  return (
+    <li className="grid grid-cols-[4.5rem_1fr_auto] gap-4 border-t rule py-4 md:grid-cols-[5.5rem_1fr_auto]">
+      <div className="grain relative block aspect-[4/5] bg-paper-2">
+        <GarmentSVG kind={p.kind} hex={c.hex} className="absolute inset-[10%] h-[80%] w-[80%]" />
+      </div>
+      <div className="flex min-w-0 flex-col">
+        <p className="text-[0.9375rem] leading-snug">
+          <span className="font-mono text-[0.8125rem]">{p.id}</span>
+          <span className="text-muted"> / </span>
+          {p.name}
+        </p>
+        <p className="mt-0.5 text-[0.8125rem] text-muted">
+          {c.name} / {p.slot === "bottom" ? `W${line.size}` : line.size}
+        </p>
+        {p.dispatch && <p className="label mt-1 text-muted">{p.dispatch}</p>}
+        <div className="mt-auto flex items-center gap-4 pt-3">
+          <Stepper value={line.qty} min={1} onChange={(n) => setQty(line.key, n)} label="Quantity" />
+          <button onClick={() => removeLine(line.key)} className="label text-muted transition-colors hover:text-ink">
+            Remove
+          </button>
+        </div>
+      </div>
+      <p className={`font-mono tabular-nums ${compact ? "text-[0.8125rem]" : "text-sm"}`}>{fmtPrice(p.price * line.qty)}</p>
+    </li>
+  );
+}
 
 function Field({ label, children, className = "" }: { label: string; children: ReactNode; className?: string }) {
   return (
@@ -52,7 +84,7 @@ export function IssueView() {
               return (
                 <li key={g.garmentNo} className="animate-rise" style={{ animationDelay: `${160 + i * 80}ms` }}>
                   <Link
-                    href={`/record/${g.garmentNo}`}
+                    href="/record"
                     className="group grid grid-cols-[3rem_1fr_auto] items-center gap-4 border-b rule py-3 hover:bg-paper-2"
                   >
                     <span className="grain relative block aspect-square bg-paper-2">
@@ -70,7 +102,7 @@ export function IssueView() {
           </ul>
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <Action href="/record">View your record</Action>
-            <Action href="/uniforms" variant="outline">
+            <Action href="/001" variant="outline">
               Continue
             </Action>
           </div>
@@ -88,8 +120,8 @@ export function IssueView() {
           <p className="max-w-[26rem] text-xl leading-snug">Nothing is waiting to be issued.</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Action href="/build">Build your uniform</Action>
-            <Action href="/uniforms" variant="outline">
-              View uniforms
+            <Action href="/001" variant="outline">
+              View Uniform 001
             </Action>
           </div>
         </div>

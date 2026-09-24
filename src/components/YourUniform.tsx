@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { fmtDay, fmtPrice, getColour, getProduct } from "@/lib/data";
 import { outfitOf } from "@/lib/outfit";
 import { recommend } from "@/lib/recommend";
@@ -9,7 +9,8 @@ import { Figure } from "./Figure";
 import { GarmentSVG } from "./garments";
 import { Action } from "./ui";
 
-export function YourUniform() {
+export function YourUniform({ onRetake }: { onRetake: () => void }) {
+  const router = useRouter();
   const { consultation, hydrated, addToIssue, profile } = useStore();
 
   if (!hydrated) return <div className="min-h-[70vh]" />;
@@ -19,7 +20,7 @@ export function YourUniform() {
       <div className="shell flex min-h-[60vh] flex-col items-start justify-center gap-6">
         <p className="label text-muted">No consultation on record</p>
         <p className="max-w-[26rem] text-2xl leading-snug">Answer a few questions and we will prepare your uniform.</p>
-        <Action href="/build">Begin the consultation</Action>
+        <Action onClick={onRetake}>Begin the consultation</Action>
       </div>
     );
   }
@@ -89,16 +90,21 @@ export function YourUniform() {
           </div>
 
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
-            <Action onClick={() => addToIssue(rec.items.map(({ productId, colour, size }) => ({ productId, colour, size })))}>
+            <Action
+              onClick={() => {
+                addToIssue(rec.items.map(({ productId, colour, size }) => ({ productId, colour, size })));
+                router.push("/record");
+              }}
+            >
               Issue my uniform
             </Action>
-            <Action href="/build/configure" variant="outline">
-              Refine in configurator
+            <Action onClick={onRetake} variant="outline">
+              Retake consultation
             </Action>
           </div>
-          <Link href="/build" className="label mt-5 inline-block text-muted hover:text-ink">
-            Retake consultation →
-          </Link>
+          <p className="label mt-5 max-w-[26rem] text-muted">
+            Your recommendation is saved to your Uniform Record, and the garments are set aside in Your Issue.
+          </p>
         </div>
 
         <div className="col-span-12 lg:col-span-4 lg:col-start-9">
@@ -128,15 +134,6 @@ export function YourUniform() {
             <dd className="max-w-[40rem] text-[0.9375rem] leading-relaxed text-charcoal">{rec.sizeNote}</dd>
           </div>
         </dl>
-        {rec.next && (
-          <p className="col-span-12 text-sm text-muted md:col-span-9 md:col-start-4">
-            When you are ready for the next foundation:{" "}
-            <Link href={`/uniforms/${rec.next}`} className="ulink text-ink">
-              {rec.next} / {getProduct(rec.next)!.name}
-            </Link>
-            .
-          </p>
-        )}
       </section>
     </div>
   );

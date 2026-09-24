@@ -16,22 +16,20 @@ npm run build      # production build
 npm run typecheck
 ```
 
-## Pages
+## The path
 
-| Route | What it is |
-| --- | --- |
-| `/` | Editorial homepage: Plate 01, Uniform 001, how it is made, One Less Decision, Monday — Sunday |
-| `/uniforms` | Index of the five foundations (001 – 005) |
-| `/uniforms/[id]` | Product specification sheet: plates, swatches, sizes, measurement diagram, how it fits your uniform |
-| `/build` | Build Your Uniform — a seven-step consultation |
-| `/build/your-uniform` | Personalised recommendation with reasoning, "Issue my uniform" |
-| `/build/configure` | Uniform configurator: Base / Mid / Outer / Bottom, 3/5/7-day presets, combinations, weekly rotation |
-| `/archive` | Permanent catalogue, including fully issued forms (000) |
-| `/record` | Uniform Record: preferences, foundations issued, issued garments, issue history |
-| `/record/[garmentNo]` | Garment record (the page behind the sewn-in NFC/QR tag), e.g. `/record/001-26-00482` |
-| `/issue` | Your Issue (cart) → checkout → confirmation; completed garments are numbered and added to the record |
+The prototype is one linear journey. A five-segment progress line under the header shows where you are, and every
+page ends with a link to the next step.
 
-"Your Issue" also opens as a drawer from the header. The footer has a **Reset prototype data** link.
+| Step | Route | What it is |
+| --- | --- | --- |
+| 01 | `/` | Homepage: the idea, Plate 01, One Less Decision |
+| 02 | `/001` | Uniform 001 story: five views, Proportion / Material / Construction / Purpose, Monday — Sunday, add to issue |
+| 03 | `/build` | Build Your Uniform: seven-question consultation, then the recommendation and "Issue my uniform" |
+| 04 | `/record` | Uniform Record: preferences, garments awaiting issue, issued garments (each opens its garment record), foundations still open |
+| 05 | `/issue` | Your Issue: review → checkout → confirmation; completed garments are numbered and added to the record |
+
+The footer has a **Reset prototype** link that clears local data.
 
 ## Structure
 
@@ -39,12 +37,13 @@ npm run typecheck
 src/
   app/            routes
   components/     UI: garments.tsx (SVG garment flats + measurement diagrams), Figure.tsx (outfit on a croquis),
-                  Plate.tsx (image plates, fabric, woven label, tag code), Configurator, Consultation, …
+                  Plate.tsx (image plates, fabric, woven label, tag code), Consultation, RecordView, IssueView, …
   lib/
     data.ts       products, colours, mock customer and garment register
     store.tsx     client store (issue, consultation, record) persisted to localStorage
     recommend.ts  consultation → recommendation logic
     outfit.ts     helper to compose figures
+    flow.ts       the five-step path
 ```
 
 Imagery is drawn: garments are SVG technical flats rendered in each colourway, standing in for campaign

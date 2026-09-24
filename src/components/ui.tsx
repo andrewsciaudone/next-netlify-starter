@@ -46,7 +46,7 @@ export function Action({
   full,
 }: BtnProps) {
   const base =
-    "group inline-flex h-12 items-center justify-center gap-3 px-6 text-[0.75rem] font-medium uppercase tracking-[0.16em] transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-40";
+    "group inline-flex h-12 items-center justify-center gap-3 whitespace-nowrap px-6 text-[0.75rem] font-medium uppercase tracking-[0.16em] transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-40";
   const styles = {
     solid: "bg-ink text-paper hover:bg-navy",
     outline: "border border-ink text-ink hover:bg-ink hover:text-paper",

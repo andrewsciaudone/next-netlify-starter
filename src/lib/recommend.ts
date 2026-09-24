@@ -5,7 +5,6 @@ export interface Recommendation {
   items: { productId: string; colour: string; size: string; note: string }[];
   reasons: { k: string; v: string }[];
   sizeNote: string;
-  next: string | null;
 }
 
 const COLOUR_ID: Record<string, string> = {
@@ -101,6 +100,5 @@ export function recommend(c: Consultation): Recommendation {
     },
   ];
 
-  const next = layered ? "004" : "002";
-  return { items, reasons, sizeNote, next };
+  return { items, reasons, sizeNote };
 }

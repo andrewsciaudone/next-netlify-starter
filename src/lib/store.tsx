@@ -55,12 +55,7 @@ interface State {
 
 interface Store extends State {
   hydrated: boolean;
-  drawerOpen: boolean;
-  setDrawerOpen: (open: boolean) => void;
-  addToIssue: (
-    items: { productId: string; colour: string; size: string; qty?: number }[],
-    opts?: { open?: boolean }
-  ) => void;
+  addToIssue: (items: { productId: string; colour: string; size: string; qty?: number }[]) => void;
   setQty: (key: string, qty: number) => void;
   removeLine: (key: string) => void;
   saveConsultation: (c: Consultation) => void;
@@ -85,7 +80,6 @@ const Ctx = createContext<Store | null>(null);
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<State>(initial);
   const [hydrated, setHydrated] = useState(false);
-  const [drawerOpen, setDrawerOpen] = useState(false);
   const stateRef = useRef(state);
   stateRef.current = state;
 
@@ -108,7 +102,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     }
   }, [state, hydrated]);
 
-  const addToIssue: Store["addToIssue"] = useCallback((items, opts) => {
+  const addToIssue: Store["addToIssue"] = useCallback((items) => {
     setState((s) => {
       const lines = [...s.lines];
       for (const it of items) {
@@ -119,7 +113,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       }
       return { ...s, lines };
     });
-    if (opts?.open !== false) setDrawerOpen(true);
   }, []);
 
   const setQty = useCallback((key: string, qty: number) => {
@@ -204,8 +197,6 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     return {
       ...state,
       hydrated,
-      drawerOpen,
-      setDrawerOpen,
       addToIssue,
       setQty,
       removeLine,
@@ -215,7 +206,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       count,
       total,
     };
-  }, [state, hydrated, drawerOpen, addToIssue, setQty, removeLine, saveConsultation, completeIssue, resetPrototype]);
+  }, [state, hydrated, addToIssue, setQty, removeLine, saveConsultation, completeIssue, resetPrototype]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

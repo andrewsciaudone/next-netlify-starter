@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState, type ReactNode } from "react";
 import { COLOURS } from "@/lib/data";
 import { useStore, type Consultation as C } from "@/lib/store";
 import { TEE_OUTLINE } from "./garments";
 import { Action } from "./ui";
+import { YourUniform } from "./YourUniform";
 
 const EMPTY: C = {
   name: "",
@@ -81,9 +81,8 @@ function Choice({
 }
 
 export function Consultation() {
-  const router = useRouter();
   const { saveConsultation, consultation, hydrated, profile } = useStore();
-  const [started, setStarted] = useState(false);
+  const [mode, setMode] = useState<"intro" | "questions" | "result">("intro");
   const [step, setStep] = useState(0);
   const [a, setA] = useState<C>(EMPTY);
 
@@ -101,7 +100,8 @@ export function Consultation() {
     if (step < STEPS.length - 1) setStep(step + 1);
     else {
       saveConsultation({ ...a, name: a.name.trim(), completedAt: new Date().toISOString() });
-      router.push("/build/your-uniform");
+      setMode("result");
+      window.scrollTo({ top: 0 });
     }
   };
 
@@ -118,7 +118,19 @@ export function Consultation() {
     return v as string;
   };
 
-  if (!started) {
+  if (mode === "result") {
+    return (
+      <YourUniform
+        onRetake={() => {
+          setStep(0);
+          setMode("questions");
+          window.scrollTo({ top: 0 });
+        }}
+      />
+    );
+  }
+
+  if (mode === "intro") {
     return (
       <div className="shell grid min-h-[calc(100vh-3.5rem)] grid-cols-12 gap-x-4 pt-10 pb-16 md:pt-16">
         <div className="col-span-12 flex flex-col md:col-span-7">
@@ -132,11 +144,11 @@ export function Consultation() {
             Answer a few questions. We&rsquo;ll recommend the foundation.
           </p>
           <div className="mt-10 flex flex-col items-start gap-4 animate-rise [animation-delay:200ms]">
-            <Action onClick={() => setStarted(true)}>{consultation ? "Begin again" : "Begin"}</Action>
+            <Action onClick={() => setMode("questions")}>{consultation ? "Begin again" : "Begin"}</Action>
             {consultation && (
-              <Link href="/build/your-uniform" className="label text-muted hover:text-ink">
+              <button onClick={() => setMode("result")} className="label text-muted hover:text-ink">
                 View your last recommendation →
-              </Link>
+              </button>
             )}
           </div>
         </div>
@@ -156,8 +168,8 @@ export function Consultation() {
           </dl>
           <p className="mt-8 text-sm text-muted">
             Already know what you want?{" "}
-            <Link href="/build/configure" className="ulink text-ink">
-              Open the configurator
+            <Link href="/001" className="ulink text-ink">
+              Choose 001 directly
             </Link>
             .
           </p>
@@ -375,7 +387,7 @@ export function Consultation() {
 
         <div className="mt-auto flex items-center justify-between gap-4 pt-14">
           <button
-            onClick={() => (step === 0 ? setStarted(false) : setStep(step - 1))}
+            onClick={() => (step === 0 ? setMode("intro") : setStep(step - 1))}
             className="label text-muted transition-colors hover:text-ink"
           >
             ← Back
