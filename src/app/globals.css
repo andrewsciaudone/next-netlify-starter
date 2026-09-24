@@ -11,7 +11,7 @@
   --color-rule: #d3cec3;
   --color-accent: #3d4a63;
 
-  --font-sans: "Inter Tight Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "Inter Tight Variable", "Inter Tight", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
 
   --text-micro: 0.625rem;

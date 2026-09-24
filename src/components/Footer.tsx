@@ -29,6 +29,7 @@ export function Footer() {
       </div>
       <div className="shell flex justify-between gap-4 border-t rule py-4 label text-muted">
         <span>Form No. FU-000 — A Finest Form company</span>
+        <span className="hidden md:inline">Use ← → to move between steps</span>
         <button
           onClick={resetPrototype}
           className="transition-colors hover:text-ink"

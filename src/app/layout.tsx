@@ -6,6 +6,7 @@ import "./globals.css";
 import { StoreProvider } from "@/lib/store";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { KeyNav } from "@/components/KeyNav";
 
 export const metadata: Metadata = {
   title: {
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Header />
           <main>{children}</main>
           <Footer />
+          <KeyNav />
         </StoreProvider>
       </body>
     </html>

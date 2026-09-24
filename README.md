@@ -29,7 +29,13 @@ page ends with a link to the next step.
 | 04 | `/record` | Uniform Record: preferences, garments awaiting issue, issued garments (each opens its garment record), foundations still open |
 | 05 | `/issue` | Your Issue: review → checkout → confirmation; completed garments are numbered and added to the record |
 
-The footer has a **Reset prototype** link that clears local data.
+The footer has a **Reset prototype** link that clears local data. When presenting, **← / →** move between steps.
+
+## Presentation build
+
+`npm run build:present` bundles the same components into one self-contained page,
+`present/dist/finest-uniform.html` (React from cdnjs, everything else inlined). `present/shims/` stand in for
+`next/link` and `next/navigation` with a small in-page router.
 
 ## Structure
 

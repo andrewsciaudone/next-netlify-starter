@@ -22,7 +22,7 @@ export function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-paper/95 backdrop-blur-[2px]">
+      <header className="sticky top-[env(safe-area-inset-top,0px)] z-40 bg-paper/95 backdrop-blur-[2px]">
         <div className="shell flex h-14 items-center justify-between gap-6">
           <Link href="/" className="whitespace-nowrap text-[0.8125rem] font-semibold tracking-[0.22em]">
             FINEST UNIFORM
