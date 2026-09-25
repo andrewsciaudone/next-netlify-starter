@@ -36,7 +36,7 @@ export interface Product {
   colours: Colour[];
   sizes: string[];
   measurementPoints: { key: string; label: string }[];
-  measurements: Record<string, number[]>; // size -> cm values by point
+  measurements: Record<string, number[]>; // size -> inches by point, garment measured flat
   model: string;
   fitNote: string;
   label: string[];
@@ -108,12 +108,12 @@ export const PRODUCTS: Product[] = [
       { key: "E", label: "Sleeve opening" },
     ],
     measurements: {
-      XS: [52, 66, 45, 21, 17.5],
-      S: [54, 67.5, 47, 21.5, 18],
-      M: [56, 69, 49, 22, 18.5],
-      L: [58.5, 70.5, 51, 22.5, 19],
-      XL: [61, 72, 53, 23, 19.5],
-      XXL: [63.5, 73.5, 55, 23.5, 20],
+      XS: [20, 26, 17.5, 8, 6.75],
+      S: [21, 26.5, 18.25, 8.25, 7],
+      M: [22, 27, 19, 8.5, 7.25],
+      L: [23, 27.5, 19.75, 8.75, 7.5],
+      XL: [24, 28, 20.5, 9, 7.75],
+      XXL: [25, 28.5, 21.25, 9.25, 8],
     },
     model: "Model is 6′1″ / 172 lb. Chest 38 in. Wears M.",
     fitNote:
@@ -161,12 +161,12 @@ export const PRODUCTS: Product[] = [
       { key: "E", label: "Hem, relaxed" },
     ],
     measurements: {
-      XS: [54, 64, 44, 61, 44],
-      S: [56, 65.5, 46, 62, 46],
-      M: [58, 67, 48, 63, 48],
-      L: [60.5, 68.5, 50, 64, 50.5],
-      XL: [63, 70, 52, 65, 53],
-      XXL: [65.5, 71.5, 54, 66, 55.5],
+      XS: [21, 25, 17.25, 24, 17.5],
+      S: [22, 25.5, 18, 24.5, 18.5],
+      M: [23, 26, 18.75, 25, 19.5],
+      L: [24, 26.5, 19.5, 25.5, 20.5],
+      XL: [25, 27, 20.25, 26, 21.5],
+      XXL: [26, 27.5, 21, 26.5, 22.5],
     },
     model: "Model is 6′1″ / 172 lb. Wears M.",
     fitNote: "Cut to sit over 001 without pulling. Take your usual size.",
@@ -213,12 +213,12 @@ export const PRODUCTS: Product[] = [
       { key: "E", label: "Hood height" },
     ],
     measurements: {
-      XS: [55, 65, 45, 61, 34],
-      S: [57, 66.5, 47, 62, 34.5],
-      M: [59, 68, 49, 63, 35],
-      L: [61.5, 69.5, 51, 64, 35.5],
-      XL: [64, 71, 53, 65, 36],
-      XXL: [66.5, 72.5, 55, 66, 36.5],
+      XS: [21.5, 25.5, 17.25, 24, 13.25],
+      S: [22.5, 26, 18, 24.5, 13.5],
+      M: [23.5, 26.5, 18.75, 25, 13.75],
+      L: [24.5, 27, 19.5, 25.5, 14],
+      XL: [25.5, 27.5, 20.25, 26, 14.25],
+      XXL: [26.5, 28, 21, 26.5, 14.5],
     },
     model: "Model is 6′1″ / 172 lb. Wears M.",
     fitNote: "Same block as 002, with ½ in added to the chest for ease over layers.",
@@ -265,15 +265,15 @@ export const PRODUCTS: Product[] = [
       { key: "E", label: "Sleeve opening" },
     ],
     measurements: {
-      XS: [52, 67, 45, 21, 17.5],
-      S: [54, 68.5, 47, 21.5, 18],
-      M: [56, 70, 49, 22, 18.5],
-      L: [58.5, 71.5, 51, 22.5, 19],
-      XL: [61, 73, 53, 23, 19.5],
-      XXL: [63.5, 74.5, 55, 23.5, 20],
+      XS: [20, 26.5, 17.5, 8, 6.75],
+      S: [21, 27, 18.25, 8.25, 7],
+      M: [22, 27.5, 19, 8.5, 7.25],
+      L: [23, 28, 19.75, 8.75, 7.5],
+      XL: [24, 28.5, 20.5, 9, 7.75],
+      XXL: [25, 29, 21.25, 9.25, 8],
     },
     model: "Model is 6′1″ / 172 lb. Chest 38 in. Wears M.",
-    fitNote: "Cut on the 001 block, ⅜ in longer. Take your 001 size.",
+    fitNote: "Cut on the 001 block, ½ in longer. Take your 001 size.",
     label: ["FINEST UNIFORM", "FORM NO. 004", "JERSEY POLO", "STANDARD ISSUE"],
     compatible: ["002", "003"],
   },
@@ -355,9 +355,9 @@ export const DEFAULT_ISSUED: IssuedGarment[] = [
   },
 ];
 
-/** Centimetres → inches to the nearest quarter, written the way a US spec sheet writes it: 22¼. */
-export function fmtIn(cm: number) {
-  const q = Math.round((cm / 2.54) * 4) / 4;
+/** Inches to the nearest quarter, written the way a US spec sheet writes it: 22¼. */
+export function fmtIn(inches: number) {
+  const q = Math.round(inches * 4) / 4;
   const whole = Math.floor(q);
   const frac = ["", "¼", "½", "¾"][Math.round((q - whole) * 4)];
   return `${whole}${frac}`;
