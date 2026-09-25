@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { Product } from "@/lib/data";
+import { fmtIn, type Product } from "@/lib/data";
 import { MeasureDiagram } from "./garments";
 
 /** Points-of-measure table linked to the technical drawing. */
@@ -18,7 +18,7 @@ export function MeasureTable({ product, size, highlightSize = true }: { product:
         <table className="w-full min-w-[30rem] border-collapse text-left">
           <thead>
             <tr className="border-b border-ink">
-              <th className="label py-2 pr-4 font-normal text-muted">Point / cm</th>
+              <th className="label py-2 pr-4 font-normal text-muted">Point / in</th>
               {product.sizes.map((s) => (
                 <th
                   key={s}
@@ -52,14 +52,14 @@ export function MeasureTable({ product, size, highlightSize = true }: { product:
                       highlightSize && s === size ? "text-ink" : "text-muted"
                     }`}
                   >
-                    {product.measurements[s][i].toFixed(1)}
+                    {fmtIn(product.measurements[s][i])}
                   </td>
                 ))}
               </tr>
             ))}
           </tbody>
         </table>
-        <p className="label mt-4 text-muted">Garment measured flat. Tolerance ±1 cm.</p>
+        <p className="label mt-4 text-muted">Garment measured flat, in inches. Tolerance ±⅜ in.</p>
       </div>
     </div>
   );

@@ -141,6 +141,46 @@ function Tee({ t, view }: PartProps) {
   );
 }
 
+/* ----------------------------------------------------------------- POLO */
+
+function Polo({ t, view }: PartProps) {
+  const button = (y: number) => (
+    <circle key={y} cx={200} cy={y} r={3.2} fill={t.line ? "none" : t.shade} stroke={t.edge} strokeWidth={0.6} vectorEffect="non-scaling-stroke" />
+  );
+  return (
+    <g>
+      <Shape d={TEE_OUTLINE} t={t} />
+      <Fold d="M150,250 C158,300 156,350 148,390" t={t} />
+      <Fold d="M254,240 C246,290 250,350 258,390" t={t} />
+      {/* rib sleeve bands */}
+      <Shape d="M42,168 L82,188 L88.2,177.8 L48.2,157.8 Z" t={t} fill={t.rib} />
+      <Shape d="M358,168 L318,188 L311.8,177.8 L351.8,157.8 Z" t={t} fill={t.rib} />
+      {view === "front" ? (
+        <>
+          <Shape d="M163,56 C180,64 220,64 237,56 C226,72 174,72 163,56 Z" t={t} fill={t.shade} />
+          <Shape d="M191,76 L209,76 L209,152 L191,152 Z" t={t} fill={t.rib} />
+          <Stitch d="M193.5,80 L193.5,149.5 L206.5,149.5 L206.5,80" t={t} />
+          {[98, 120, 142].map(button)}
+          <Shape d="M163,55 C155,70 159,91 172,106 L200,80 C186,76 172,68 163,55 Z" t={t} />
+          <Shape d="M237,55 C245,70 241,91 228,106 L200,80 C214,76 228,68 237,55 Z" t={t} />
+          <Stitch d="M166,62 C161,74 164,90 173,100" t={t} />
+          <Stitch d="M234,62 C239,74 236,90 227,100" t={t} />
+        </>
+      ) : (
+        <>
+          <Shape d="M163,56 C180,66 220,66 237,56 L239,70 C220,82 180,82 161,70 Z" t={t} />
+          <Stitch d="M162,66 C180,77 220,77 238,66" t={t} />
+          <rect x={193} y={82} width={14} height={8} fill={t.line ? "none" : "var(--color-paper)"} stroke={t.edge} strokeWidth={0.6} vectorEffect="non-scaling-stroke" opacity={0.9} />
+        </>
+      )}
+      <Seam d="M98,76 C108,100 106,126 102,146" t={t} />
+      <Seam d="M302,76 C292,100 294,126 298,146" t={t} />
+      <Stitch d="M101,391 C160,396 240,396 299,391" t={t} />
+      <Seam d="M99,400 L100,388 M301,400 L300,388" t={t} />
+    </g>
+  );
+}
+
 /* ---------------------------------------------------------------- SWEAT */
 
 export const SWEAT_OUTLINE =
@@ -356,6 +396,8 @@ export function GarmentShape({
   switch (kind) {
     case "tee":
       return <Tee t={t} view={view} />;
+    case "polo":
+      return <Polo t={t} view={view} />;
     case "sweat":
       return <Sweat t={t} view={view} />;
     case "hood":
@@ -394,14 +436,17 @@ export function GarmentSVG({
 /* ---------------------------------------------------- DIMENSION DIAGRAM */
 
 type Pt = [number, number];
-const DIMS: Record<GarmentKind, { k: string; a: Pt; b: Pt; off: number }[]> = {
-  tee: [
+const TEE_DIMS: { k: string; a: Pt; b: Pt; off: number }[] = [
     { k: "A", a: [102, 150], b: [298, 150], off: 0 },
     { k: "B", a: [163, 56], b: [163, 403], off: -150 },
     { k: "C", a: [98, 76], b: [302, 76], off: -44 },
     { k: "D", a: [302, 76], b: [358, 168], off: 26 },
     { k: "E", a: [358, 168], b: [318, 188], off: 20 },
-  ],
+  ];
+
+const DIMS: Record<GarmentKind, { k: string; a: Pt; b: Pt; off: number }[]> = {
+  tee: TEE_DIMS,
+  polo: TEE_DIMS,
   sweat: [
     { k: "A", a: [104, 160], b: [296, 160], off: 0 },
     { k: "B", a: [165, 54], b: [165, 448], off: -150 },

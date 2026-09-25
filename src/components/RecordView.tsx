@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { fmtDate, fmtDay, fmtPrice, FOUNDATIONS, getColour, getProduct, PRODUCTS, type IssuedGarment } from "@/lib/data";
+import { fmtDate, fmtDay, fmtHeight, fmtIn, fmtPrice, FOUNDATIONS, getColour, getProduct, PRODUCTS, type IssuedGarment } from "@/lib/data";
 import { useStore } from "@/lib/store";
 import { GarmentSVG } from "./garments";
 import { MatrixCode } from "./Plate";
@@ -40,11 +40,11 @@ function GarmentDetail({ g }: { g: IssuedGarment }) {
       </dl>
 
       <dl className="col-span-6 text-sm md:col-span-3">
-        <dt className="label mb-2 text-muted">Measurements — {g.size}</dt>
+        <dt className="label mb-2 text-muted">Measurements, in — {g.size}</dt>
         {p.measurementPoints.map((pt, i) => (
           <dd key={pt.key} className="flex justify-between border-b border-dashed rule py-1.5">
             <span>{pt.label}</span>
-            <span className="font-mono text-[0.8125rem] tabular-nums">{p.measurements[g.size]?.[i].toFixed(1)}</span>
+            <span className="font-mono text-[0.8125rem] tabular-nums">{fmtIn(p.measurements[g.size]?.[i] ?? 0)}</span>
           </dd>
         ))}
       </dl>
@@ -103,9 +103,9 @@ export function RecordView() {
         </div>
         <dl className="col-span-12 grid grid-cols-2 gap-x-4 md:col-span-6">
           {[
-            ["Preferred fit", `${profile.fit} / ${profile.length}`],
+            ["Preferred fit", `${profile.fit} / ${profile.length} / ${profile.collar === "Both" ? "Crew & polo" : profile.collar ?? "Crew"}`],
             ["Preferred colours", profile.colours.join(" / ")],
-            ["Standard size", profile.size + (profile.height ? ` — ${profile.height} cm` : "")],
+            ["Standard size", profile.size + (profile.height ? ` — ${fmtHeight(profile.height)}` : "")],
             ["Worn", `${profile.wear}, ${profile.frequency} a week`],
           ].map(([k, v]) => (
             <div key={k} className="border-t rule py-3">
@@ -161,7 +161,7 @@ export function RecordView() {
             {String(done.length).padStart(2, "0")} / {String(FOUNDATIONS.length).padStart(2, "0")} foundations issued
           </p>
         </div>
-        <ol className="mt-5 grid grid-cols-3 gap-1">
+        <ol className="mt-5 grid grid-cols-4 gap-1">
           {PRODUCTS.map((p) => {
             const on = issuedForms.has(p.id);
             return (
@@ -242,7 +242,7 @@ export function RecordView() {
                     <span className="font-mono">{p.id}</span> / {p.name}
                   </p>
                   <p className="label mt-1 text-muted">
-                    {fmtPrice(p.price)} — {p.dispatch}
+                    {fmtPrice(p.price)} — {p.dispatch ?? "Available now"}
                   </p>
                   {!set && (
                     <button

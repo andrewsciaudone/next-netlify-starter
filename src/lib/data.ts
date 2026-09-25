@@ -1,7 +1,7 @@
 // Local mock catalogue for the Finest Uniform prototype.
 
 export type Slot = "base" | "mid" | "outer" | "bottom";
-export type GarmentKind = "tee" | "sweat" | "hood" | "overshirt" | "trouser";
+export type GarmentKind = "tee" | "polo" | "sweat" | "hood" | "overshirt" | "trouser";
 export type Status = "available" | "pre-issue" | "fully-issued";
 
 export interface Colour {
@@ -79,15 +79,15 @@ export const PRODUCTS: Product[] = [
     weight: "280 gsm",
     fibre: "100% long-staple cotton",
     construction: [
-      "1×1 rib collar, 2.2 cm",
+      "1×1 rib collar, ⅞ in",
       "Reinforced shoulder, taped",
       "Twin-needle hems",
       "Garment washed",
     ],
-    origin: "Made in Portugal",
-    mill: "Knitted in Barcelos, cut and sewn in Guimarães",
+    origin: "Made in the USA",
+    mill: "Knitted in North Carolina, cut and sewn in Los Angeles",
     care: [
-      "Wash cold, 30°C, inside out",
+      "Machine wash cold, inside out",
       "Dry flat or line dry",
       "Do not tumble dry",
       "Iron on reverse, low heat",
@@ -115,7 +115,7 @@ export const PRODUCTS: Product[] = [
       XL: [61, 72, 53, 23, 19.5],
       XXL: [63.5, 73.5, 55, 23.5, 20],
     },
-    model: "Model is 186 cm / 78 kg. Chest 97 cm. Wears M.",
+    model: "Model is 6′1″ / 172 lb. Chest 38 in. Wears M.",
     fitNote:
       "Cut to finish at the belt line. Take your usual size for the intended fit; one size down for a closer chest.",
     label: ["FINEST UNIFORM", "FORM NO. 001", "COTTON JERSEY", "STANDARD ISSUE"],
@@ -141,13 +141,13 @@ export const PRODUCTS: Product[] = [
     construction: [
       "Front V-insert, coverstitched",
       "Set-in sleeve, flat-locked",
-      "8 cm rib hem and cuff",
+      "3 in rib hem and cuff",
       "Garment washed",
     ],
-    origin: "Made in Portugal",
-    mill: "Loopback knitted in Barcelos",
+    origin: "Made in the USA",
+    mill: "Loopback knitted in North Carolina, sewn in Los Angeles",
     care: [
-      "Wash cold, 30°C, inside out",
+      "Machine wash cold, inside out",
       "Reshape and dry flat",
       "Do not tumble dry",
     ],
@@ -168,7 +168,7 @@ export const PRODUCTS: Product[] = [
       XL: [63, 70, 52, 65, 53],
       XXL: [65.5, 71.5, 54, 66, 55.5],
     },
-    model: "Model is 186 cm / 78 kg. Wears M.",
+    model: "Model is 6′1″ / 172 lb. Wears M.",
     fitNote: "Cut to sit over 001 without pulling. Take your usual size.",
     label: ["FINEST UNIFORM", "FORM NO. 002", "LOOPBACK COTTON", "STANDARD ISSUE"],
     compatible: ["001"],
@@ -196,10 +196,10 @@ export const PRODUCTS: Product[] = [
       "Bound kangaroo pocket",
       "Garment washed",
     ],
-    origin: "Made in Portugal",
-    mill: "Loopback knitted in Barcelos",
+    origin: "Made in the USA",
+    mill: "Loopback knitted in North Carolina, sewn in Los Angeles",
     care: [
-      "Wash cold, 30°C, inside out",
+      "Machine wash cold, inside out",
       "Reshape and dry flat",
       "Do not tumble dry",
     ],
@@ -220,10 +220,62 @@ export const PRODUCTS: Product[] = [
       XL: [64, 71, 53, 65, 36],
       XXL: [66.5, 72.5, 55, 66, 36.5],
     },
-    model: "Model is 186 cm / 78 kg. Wears M.",
-    fitNote: "Same block as 002, with 1 cm added to the chest for ease over layers.",
+    model: "Model is 6′1″ / 172 lb. Wears M.",
+    fitNote: "Same block as 002, with ½ in added to the chest for ease over layers.",
     label: ["FINEST UNIFORM", "FORM NO. 003", "LOOPBACK COTTON", "STANDARD ISSUE"],
     compatible: ["001"],
+  },
+  {
+    id: "004",
+    name: "Jersey Polo",
+    kind: "polo",
+    slot: "base",
+    price: 118,
+    issue: "01",
+    issueDate: "09.26",
+    issueMonth: "September 2026",
+    status: "available",
+    statement: "The same jersey as 001, given a collar for the days that ask for one.",
+    purpose: "Daily base layer, dressed up.",
+    form: "Shortened body / relaxed chest / self-fabric collar.",
+    material: "280gsm cotton jersey.",
+    weight: "280 gsm",
+    fibre: "100% long-staple cotton",
+    construction: [
+      "Self-fabric collar, interlined",
+      "Three-button placket, corozo buttons",
+      "Rib sleeve bands",
+      "Garment washed",
+    ],
+    origin: "Made in the USA",
+    mill: "Knitted in North Carolina, cut and sewn in Los Angeles",
+    care: [
+      "Machine wash cold, inside out",
+      "Dry flat or line dry",
+      "Do not tumble dry",
+      "Iron collar on reverse, low heat",
+    ],
+    colours: [COLOURS.navy, COLOURS.white, COLOURS.black, COLOURS.grey, COLOURS.cream],
+    sizes: TOP_SIZES,
+    measurementPoints: [
+      { key: "A", label: "Chest, ½" },
+      { key: "B", label: "Body length, HPS" },
+      { key: "C", label: "Shoulder" },
+      { key: "D", label: "Sleeve length" },
+      { key: "E", label: "Sleeve opening" },
+    ],
+    measurements: {
+      XS: [52, 67, 45, 21, 17.5],
+      S: [54, 68.5, 47, 21.5, 18],
+      M: [56, 70, 49, 22, 18.5],
+      L: [58.5, 71.5, 51, 22.5, 19],
+      XL: [61, 73, 53, 23, 19.5],
+      XXL: [63.5, 74.5, 55, 23.5, 20],
+    },
+    model: "Model is 6′1″ / 172 lb. Chest 38 in. Wears M.",
+    fitNote: "Cut on the 001 block, ⅜ in longer. Take your 001 size.",
+    label: ["FINEST UNIFORM", "FORM NO. 004", "JERSEY POLO", "STANDARD ISSUE"],
+    compatible: ["002", "003"],
   },
 ];
 
@@ -262,6 +314,7 @@ export interface Profile {
   wear: string;
   colours: string[];
   frequency: string;
+  collar: string;
   size: string;
   height?: string;
   weight?: string;
@@ -276,6 +329,7 @@ export const DEFAULT_PROFILE: Profile = {
   wear: "Both",
   colours: ["Navy", "Grey", "Cream"],
   frequency: "3–4 days",
+  collar: "Crew",
   size: "M",
   since: "2026-09-08",
 };
@@ -300,6 +354,21 @@ export const DEFAULT_ISSUED: IssuedGarment[] = [
     wears: 9,
   },
 ];
+
+/** Centimetres → inches to the nearest quarter, written the way a US spec sheet writes it: 22¼. */
+export function fmtIn(cm: number) {
+  const q = Math.round((cm / 2.54) * 4) / 4;
+  const whole = Math.floor(q);
+  const frac = ["", "¼", "½", "¾"][Math.round((q - whole) * 4)];
+  return `${whole}${frac}`;
+}
+
+/** Height in inches → 6′1″. */
+export function fmtHeight(inches: number | string) {
+  const n = typeof inches === "string" ? parseInt(inches, 10) : inches;
+  if (!n) return "";
+  return `${Math.floor(n / 12)}′${n % 12}″`;
+}
 
 export const fmtPrice = (n: number) =>
   "$" + n.toLocaleString("en-US", { maximumFractionDigits: 0 });

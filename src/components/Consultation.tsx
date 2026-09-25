@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
-import { COLOURS } from "@/lib/data";
+import { COLOURS, fmtHeight } from "@/lib/data";
 import { useStore, type Consultation as C } from "@/lib/store";
-import { TEE_OUTLINE } from "./garments";
+import { GarmentSVG, TEE_OUTLINE } from "./garments";
 import { Action } from "./ui";
 import { YourUniform } from "./YourUniform";
 
@@ -13,6 +13,7 @@ const EMPTY: C = {
   fit: "",
   length: "",
   wear: "",
+  collar: "",
   colours: [],
   frequency: "",
   size: "",
@@ -31,6 +32,7 @@ const STEPS: Step[] = [
   { key: "name", record: "Name", q: "First — what should we call you?", hint: "Your record will be prepared in this name." },
   { key: "fit", record: "Fit", q: "How do you prefer your T-shirts to fit?", hint: "Through the chest and body." },
   { key: "length", record: "Length", q: "And the length?", hint: "Measured from the shoulder, worn untucked." },
+  { key: "collar", record: "Collar", q: "T-shirt, polo, or both?", hint: "001 is the T-shirt. 004 is the same jersey with a collar." },
   { key: "wear", record: "Worn", q: "How do you normally wear them?" },
   { key: "colours", record: "Colours", q: "Which colours do you reach for?", hint: "Choose as many as you like, in order of preference." },
   { key: "frequency", record: "Frequency", q: "How often do you wear a T-shirt each week?" },
@@ -91,6 +93,7 @@ export function Consultation() {
   }, [hydrated, consultation]);
 
   const cur = STEPS[step];
+  const height = parseInt(a.height, 10) || 0;
   const set = <K extends keyof C>(k: K, v: C[K]) => setA((x) => ({ ...x, [k]: v }));
   const answered = (k: keyof C) => (k === "colours" ? true : k === "name" ? a.name.trim().length > 0 : !!a[k]);
   const canNext = answered(cur.key);
@@ -114,7 +117,7 @@ export function Consultation() {
   const recordValue = (k: keyof C) => {
     const v = a[k];
     if (Array.isArray(v)) return v.length ? v.join(" / ") : "";
-    if (k === "size" && v) return [v, a.height && `${a.height} cm`, a.weight && `${a.weight} kg`].filter(Boolean).join(" / ");
+    if (k === "size" && v) return [v, a.height && fmtHeight(a.height), a.weight && `${a.weight} lb`].filter(Boolean).join(" / ");
     return v as string;
   };
 
@@ -156,7 +159,7 @@ export function Consultation() {
           <dl className="label text-muted">
             {[
               ["Duration", "About two minutes"],
-              ["Questions", "07"],
+              ["Questions", "08"],
               ["Result", "A recommended issue"],
               ["Kept", "On your uniform record"],
             ].map(([k, v]) => (
@@ -276,6 +279,35 @@ export function Consultation() {
               </div>
             )}
 
+            {cur.key === "collar" && (
+              <div className="grid grid-cols-3 gap-3 md:gap-6">
+                {(
+                  [
+                    ["Crew", "001 — the T-shirt", ["tee"]],
+                    ["Polo", "004 — the polo", ["polo"]],
+                    ["Both", "A mix of the two", ["tee", "polo"]],
+                  ] as const
+                ).map(([v, sub, kinds], i) => (
+                  <Choice
+                    key={v}
+                    idx={i}
+                    on={a.collar === v}
+                    onClick={() => pick("collar", v)}
+                    sub={sub}
+                    glyph={
+                      <span className="flex gap-1">
+                        {kinds.map((k) => (
+                          <GarmentSVG key={k} kind={k} hex="#000" mode="line" className="h-20 w-auto md:h-24" />
+                        ))}
+                      </span>
+                    }
+                  >
+                    {v}
+                  </Choice>
+                ))}
+              </div>
+            )}
+
             {cur.key === "wear" && (
               <div className="grid gap-0 md:grid-cols-3 md:gap-6">
                 {[
@@ -356,22 +388,29 @@ export function Consultation() {
                     </button>
                   ))}
                 </div>
-                <div className="mt-8 grid max-w-[28rem] grid-cols-2 gap-6">
+                <div className="mt-8 grid max-w-[30rem] grid-cols-[1fr_1fr_1.2fr] gap-4 md:gap-6">
                   {(
                     [
-                      ["height", "Height", "cm"],
-                      ["weight", "Weight", "kg"],
+                      ["ft", "Height", "ft", Math.floor(height / 12) || ""],
+                      ["in", "\u00a0", "in", height ? height % 12 : ""],
                     ] as const
-                  ).map(([k, l, u]) => (
-                    <label key={k} className="block">
+                  ).map(([k, l, u, v]) => (
+                    <label key={k} htmlFor={`height-${k}`} className="block">
                       <span className="label text-muted">
-                        {l} <span className="opacity-60">(optional)</span>
+                        {l} {k === "ft" && <span className="opacity-60">(optional)</span>}
                       </span>
                       <span className="mt-2 flex items-baseline border-b border-ink">
                         <input
+                          id={`height-${k}`}
                           inputMode="numeric"
-                          value={a[k]}
-                          onChange={(e) => set(k, e.target.value.replace(/[^\d]/g, "").slice(0, 3))}
+                          value={v}
+                          onChange={(e) => {
+                            const n = parseInt(e.target.value.replace(/[^\d]/g, "").slice(0, 2), 10) || 0;
+                            const ft = k === "ft" ? Math.min(n, 7) : Math.floor(height / 12);
+                            const inch = k === "in" ? Math.min(n, 11) : height % 12;
+                            const total = ft * 12 + inch;
+                            set("height", total ? String(total) : "");
+                          }}
                           className="w-full bg-transparent py-1.5 font-mono text-lg outline-none"
                           placeholder="—"
                         />
@@ -379,6 +418,22 @@ export function Consultation() {
                       </span>
                     </label>
                   ))}
+                  <label htmlFor="weight" className="block">
+                    <span className="label text-muted">
+                      Weight <span className="opacity-60">(optional)</span>
+                    </span>
+                    <span className="mt-2 flex items-baseline border-b border-ink">
+                      <input
+                        id="weight"
+                        inputMode="numeric"
+                        value={a.weight}
+                        onChange={(e) => set("weight", e.target.value.replace(/[^\d]/g, "").slice(0, 3))}
+                        className="w-full bg-transparent py-1.5 font-mono text-lg outline-none"
+                        placeholder="—"
+                      />
+                      <span className="label text-muted">lb</span>
+                    </span>
+                  </label>
                 </div>
               </div>
             )}

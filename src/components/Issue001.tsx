@@ -2,17 +2,24 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { fmtPrice, getColour, type Product } from "@/lib/data";
+import { fmtPrice, getColour, getProduct } from "@/lib/data";
 import { useStore } from "@/lib/store";
 import { GarmentSVG } from "./garments";
 import { Plate, WovenLabel } from "./Plate";
 import { SizeSelect, Swatches } from "./Swatches";
 import { Action, Spec } from "./ui";
 
-/** The one place in the story where you choose colour and size and add 001 to your issue. */
-export function Issue001({ product: p }: { product: Product }) {
+const STYLES = [
+  { id: "001", label: "T-shirt" },
+  { id: "004", label: "Polo" },
+];
+
+/** The one place in the story where you choose style, colour and size and add it to your issue. */
+export function Issue001() {
   const { addToIssue, profile, hydrated, count } = useStore();
-  const [colour, setColour] = useState(p.colours[1].id);
+  const [form, setForm] = useState("001");
+  const [colour, setColour] = useState("navy");
+  const p = getProduct(form)!;
   const [size, setSize] = useState<string | null>(null);
   const [nudge, setNudge] = useState(false);
   const [added, setAdded] = useState(false);
@@ -35,8 +42,8 @@ export function Issue001({ product: p }: { product: Product }) {
   return (
     <div className="grid grid-cols-12 gap-x-4 gap-y-10 md:gap-x-8">
       <div className="col-span-12 lg:col-span-6">
-        <Plate tone={["black", "navy"].includes(c.id) ? "stone" : "paper"} no={`001 — ${c.name}`} meta={c.code} className="lg:sticky lg:top-20">
-          <div key={colour} className="fade-layer flex h-full w-full items-center justify-center">
+        <Plate tone={["black", "navy"].includes(c.id) ? "stone" : "paper"} no={`${p.id} — ${c.name}`} meta={c.code} className="lg:sticky lg:top-20">
+          <div key={`${form}-${colour}`} className="fade-layer flex h-full w-full items-center justify-center">
             <GarmentSVG kind={p.kind} hex={c.hex} className="h-[72%] w-auto" />
           </div>
         </Plate>
@@ -44,7 +51,7 @@ export function Issue001({ product: p }: { product: Product }) {
 
       <div className="col-span-12 lg:col-span-5 lg:col-start-8">
         <div className="flex items-baseline justify-between border-t border-ink pt-3">
-          <span className="label">Uniform 001</span>
+          <span key={form} className="label animate-fade">Uniform {p.id}</span>
           <span className="label text-muted">Issue 01 / 09.26</span>
         </div>
         <h2 className="mt-5 text-[2rem] font-medium uppercase leading-none tracking-[-0.02em] md:text-[2.5rem]">{p.name}</h2>
@@ -54,6 +61,39 @@ export function Issue001({ product: p }: { product: Product }) {
         </div>
 
         <div className="mt-8 border-t rule pt-4">
+          <span className="label text-muted">Style</span>
+          <div className="mt-3 grid grid-cols-2 border border-ink" role="radiogroup" aria-label="Style">
+            {STYLES.map((st) => {
+              const q = getProduct(st.id)!;
+              const on = form === st.id;
+              return (
+                <button
+                  key={st.id}
+                  role="radio"
+                  aria-checked={on}
+                  onClick={() => {
+                    setForm(st.id);
+                    setAdded(false);
+                    if (!q.colours.some((x) => x.id === colour)) setColour(q.colours[0].id);
+                  }}
+                  className={`flex items-center justify-between gap-3 px-4 py-3 text-left transition-colors ${
+                    on ? "bg-ink text-paper" : "hover:bg-paper-2"
+                  }`}
+                >
+                  <span>
+                    <span className="block text-sm">{st.label}</span>
+                    <span className={`label ${on ? "opacity-60" : "text-muted"}`}>
+                      {q.id} / {fmtPrice(q.price)}
+                    </span>
+                  </span>
+                  <GarmentSVG kind={q.kind} hex={on ? "#f3f0e9" : "#1c1c1a"} mode="fill" className="h-10 w-auto" />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="mt-6 border-t rule pt-4">
           <div className="mb-4 flex items-baseline justify-between">
             <span className="label text-muted">Colour</span>
             <span key={colour} className="label animate-fade">{c.name}</span>

@@ -108,7 +108,7 @@ export function Header() {
               <span className="text-2xl font-medium tracking-tight">{n.label}</span>
             </Link>
           ))}
-          <p className="label mt-auto text-muted">Issue 01 / 09.26 — Made in Portugal</p>
+          <p className="label mt-auto text-muted">Issue 01 / 09.26 — Made in the USA</p>
         </nav>
       </div>
     </>

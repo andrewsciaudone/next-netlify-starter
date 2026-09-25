@@ -5,16 +5,19 @@ import { Plate } from "@/components/Plate";
 import { Action } from "@/components/ui";
 
 function HeightRule() {
+  // A 75-inch rule set against the figure: a tick every 5 in, a figure every 10.
+  const y = (v: number) => 28 + ((75 - v) / 75) * 893;
   return (
     <svg viewBox="0 0 40 980" className="h-full w-auto text-ink/50" aria-hidden>
-      {Array.from({ length: 20 }).map((_, i) => {
-        const y = 28 + i * 47;
+      {Array.from({ length: 16 }).map((_, i) => {
+        const v = 75 - i * 5;
+        const major = v % 10 === 0;
         return (
-          <g key={i}>
-            <line x1={i % 2 ? 30 : 22} x2={40} y1={y} y2={y} stroke="currentColor" strokeWidth={0.8} vectorEffect="non-scaling-stroke" />
-            {i % 2 === 0 && (
-              <text x={0} y={y + 3} fontSize={9} fill="currentColor" fontFamily="var(--font-mono)">
-                {String(190 - i * 10).padStart(3, "0")}
+          <g key={v}>
+            <line x1={major ? 22 : 30} x2={40} y1={y(v)} y2={y(v)} stroke="currentColor" strokeWidth={0.8} vectorEffect="non-scaling-stroke" />
+            {major && (
+              <text x={0} y={y(v) + 3} fontSize={9} fill="currentColor" fontFamily="var(--font-mono)">
+                {String(v).padStart(2, "0")}&Prime;
               </text>
             )}
           </g>
@@ -36,7 +39,7 @@ export default function Home() {
             <span className="sm:hidden">09.26</span>
           </span>
           <span className="text-right md:text-left">Form No. 001</span>
-          <span className="hidden md:block">Made in Portugal</span>
+          <span className="hidden md:block">Made in the USA</span>
           <span className="hidden text-right md:block">Standard Issue</span>
         </div>
 
@@ -67,7 +70,7 @@ export default function Home() {
           ratio="aspect-[4/5] sm:aspect-[4/3] lg:aspect-[16/8]"
           no="Plate 01"
           caption="Uniform 001, Navy. Worn with a tailored trouser."
-          meta="Model 186 cm / M"
+          meta="Model 6′1″ / M"
           className="animate-fade"
         >
           <div className="flex h-[88%] items-stretch gap-2 md:gap-4 lg:translate-x-[8%]">
@@ -83,7 +86,7 @@ export default function Home() {
           <div className="label absolute right-4 top-4 hidden text-right opacity-70 md:right-6 md:top-6 lg:block">
             <p>001 / Short-Sleeve Jersey</p>
             <p>280 gsm / Garment washed</p>
-            <p>Made in Portugal</p>
+            <p>Made in the USA</p>
           </div>
         </Plate>
       </section>
@@ -109,7 +112,7 @@ export default function Home() {
             <ol className="mt-4">
               {[
                 ["02", "Meet the foundation, Uniform 001."],
-                ["03", "Answer seven questions. We recommend your uniform."],
+                ["03", "Answer eight questions. We recommend your uniform."],
                 ["04", "It is kept on your Uniform Record."],
                 ["05", "Your Issue is prepared and sent."],
               ].map(([n, t]) => (

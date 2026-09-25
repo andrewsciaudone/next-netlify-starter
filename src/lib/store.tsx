@@ -33,6 +33,7 @@ export interface Consultation {
   wear: string;
   colours: string[];
   frequency: string;
+  collar: string;
   size: string;
   height: string;
   weight: string;
@@ -65,7 +66,7 @@ interface Store extends State {
   total: number;
 }
 
-const KEY = "finest-uniform:v1";
+const KEY = "finest-uniform:v2";
 
 const initial: State = {
   lines: [],
@@ -141,6 +142,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         wear: c.wear,
         colours: c.colours.length ? c.colours : s.profile.colours,
         frequency: c.frequency,
+        collar: c.collar || "Crew",
         size: c.size,
         height: c.height || undefined,
         weight: c.weight || undefined,

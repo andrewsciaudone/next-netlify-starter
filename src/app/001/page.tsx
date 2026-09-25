@@ -49,7 +49,7 @@ export default function Uniform001() {
           <span>Form No. 001</span>
           <span className="text-right md:text-left">Issue 01 / 09.26</span>
           <span className="hidden md:block">280 gsm cotton jersey</span>
-          <span className="hidden text-right md:block">Made in Portugal</span>
+          <span className="hidden text-right md:block">Made in the USA</span>
         </div>
         <div className="grid grid-cols-12 gap-x-4 gap-y-8 pt-10 md:pt-16">
           <div className="col-span-12 animate-rise md:col-span-6">
@@ -73,10 +73,10 @@ export default function Uniform001() {
           <Plate tone="warm" no="02 — Back" caption="Cream" className="w-[80vw] shrink-0 snap-start md:w-auto">
             <GarmentSVG kind="tee" hex={COLOURS.cream.hex} view="back" className="h-[66%] w-auto" />
           </Plate>
-          <Plate tone="charcoal" no="03 — Detail" caption="1×1 rib, 2.2 cm" className="w-[80vw] shrink-0 snap-start md:w-auto">
+          <Plate tone="charcoal" no="03 — Detail" caption="1×1 rib, ⅞ in" className="w-[80vw] shrink-0 snap-start md:w-auto">
             <GarmentSVG kind="tee" hex={COLOURS.grey.hex} viewBox="120 20 160 120" className="h-full w-full" />
           </Plate>
-          <Plate tone="grey" no="04 — Fit" caption="186 cm / 78 kg / M" className="w-[80vw] shrink-0 snap-start md:w-auto">
+          <Plate tone="grey" no="04 — Fit" caption="6′1″ / 172 lb / M" className="w-[80vw] shrink-0 snap-start md:w-auto">
             <Figure outfit={{ base: { kind: "tee", hex: COLOURS.black.hex }, bottom: trouser(COLOURS.stone.hex) }} className="h-[90%] w-auto text-ink" animate={false} />
           </Plate>
           <Plate tone="paper" no="05 — Technical" caption="Flat, front" className="hairline-grid w-[80vw] shrink-0 snap-start md:w-auto">
@@ -119,7 +119,7 @@ export default function Uniform001() {
           }
         >
           <p>
-            280gsm long-staple cotton, knitted slowly on Portuguese circular machines. Dense enough to drape rather
+            280gsm long-staple cotton, knitted slowly on circular machines in North Carolina. Dense enough to drape rather
             than cling; soft enough to forget.
           </p>
         </Chapter>
@@ -145,7 +145,7 @@ export default function Uniform001() {
           }
         >
           <p>
-            A 1×1 rib collar set flat and cut 2.2 cm deep. Taped shoulders. Twin-needle hems. Each piece is garment
+            A 1×1 rib collar set flat and cut ⅞ in deep. Taped shoulders. Twin-needle hems. Each piece is garment
             washed, so it has done its shrinking before it reaches you.
           </p>
         </Chapter>
@@ -180,9 +180,9 @@ export default function Uniform001() {
 
       {/* Issue it */}
       <section className="shell mt-24 md:mt-32">
-        <SectionHead index="001" title="Issue 001" aside="$88 — Five colours, XS–XXL" />
+        <SectionHead index="001" title="Issue 001 — or 004, the polo" aside="T-shirt $88 / Polo $118 — XS–XXL" />
         <div className="mt-10">
-          <Issue001 product={tee} />
+          <Issue001 />
         </div>
       </section>
 
