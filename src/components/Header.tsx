@@ -11,11 +11,14 @@ export function Header() {
   const { count, hydrated } = useStore();
   const [menu, setMenu] = useState(false);
   const current = flowIndex(path);
+  const simple = path.startsWith("/simple");
 
   useEffect(() => setMenu(false), [path]);
   useEffect(() => {
     document.body.style.overflow = menu ? "hidden" : "";
   }, [menu]);
+
+  if (simple) return null;
 
   const issueCount = hydrated ? String(count).padStart(2, "0") : "00";
   const middle = FLOW.slice(1, 4);

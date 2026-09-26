@@ -11,7 +11,7 @@ export function KeyNav() {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+      if (path.startsWith("/simple") || e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
       const el = e.target as HTMLElement | null;
       if (el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))) return;
       const i = flowIndex(path);

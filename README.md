@@ -31,6 +31,13 @@ page ends with a link to the next step.
 
 The footer has a **Reset prototype** link that clears local data. When presenting, **← / →** move between steps.
 
+## Simple version
+
+`/simple` is a plain-language version of the shop: Shop, Help me choose, Cart and Checkout, with the four
+products named The T-shirt, The Polo, The Sweatshirt and The Hoodie. It shares the product data, drawings and
+cart with the full site (`src/simple/SimpleApp.tsx`). `npm run build:simple` builds it as one standalone page,
+`present/dist/finest-uniform-simple.html`.
+
 ## Presentation build
 
 `npm run build:present` bundles the same components into one self-contained page,

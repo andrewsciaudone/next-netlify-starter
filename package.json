@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "build:present": "node present/build.mjs"
+    "build:present": "node present/build.mjs",
+    "build:simple": "node present/build.mjs simple"
   },
   "dependencies": {
     "@fontsource-variable/inter-tight": "^5.3.0",

@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FLOW } from "@/lib/flow";
 import { useStore } from "@/lib/store";
 
 export function Footer() {
   const { resetPrototype } = useStore();
+  if (usePathname().startsWith("/simple")) return null;
   return (
     <footer className="mt-24 border-t rule">
       <div className="shell grid grid-cols-2 gap-x-6 gap-y-10 py-10 md:grid-cols-12">
