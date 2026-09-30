@@ -56,6 +56,7 @@ export const COLOURS = {
   stone: { id: "stone", name: "Stone", code: "STN-08", hex: "#b7ae9a" },
   olive: { id: "olive", name: "Field Olive", code: "FOL-09", hex: "#56574a" },
   undyed: { id: "undyed", name: "Undyed", code: "UND-00", hex: "#e3dccb" },
+  washedBrown: { id: "washed-brown", name: "Washed Brown", code: "WBR-10", hex: "#6b5747" },
 } satisfies Record<string, Colour>;
 
 const TOP_SIZES = ["XS", "S", "M", "L", "XL", "XXL"];
@@ -281,7 +282,7 @@ export const PRODUCTS: Product[] = [
 ];
 
 
-/** The half-zip, sold on its own in the simple shop. Measurements from the supplied chart (cm). */
+/** The Funnel Neck half-zip, sold on its own in the simple shop. Measurements from the supplied chart (cm). */
 const HALF_ZIP_CM: Record<string, number[]> = {
   XS: [55.5, 60, 60],
   S: [58.5, 61.5, 61],
@@ -293,7 +294,7 @@ const HALF_ZIP_CM: Record<string, number[]> = {
 
 export const HALF_ZIP: Product = {
   id: "005",
-  name: "Half-Zip Sweatshirt",
+  name: "Funnel Neck",
   kind: "halfzip",
   slot: "mid",
   price: 178,
@@ -301,17 +302,17 @@ export const HALF_ZIP: Product = {
   issueDate: "09.26",
   issueMonth: "September 2026",
   status: "available",
-  statement: "A heavy cotton half-zip with a stand collar, cut boxy and a little cropped.",
+  statement: "A French terry half-zip with a funnel neck, cut shorter and boxy.",
   purpose: "Mid layer. Over a T-shirt or on its own.",
-  form: "Boxy body / dropped shoulder / stand collar / elastic hem.",
-  material: "Heavy cotton fleece.",
-  weight: "[__] gsm",
-  fibre: "100% cotton",
-  construction: ["Stand collar with metal half-zip", "Dropped shoulder", "Ribbed cuffs", "Elastic hem band", "Garment washed"],
-  origin: "Made in the USA",
-  mill: "Knitted in North Carolina, sewn in Los Angeles",
+  form: "Shorter, boxy body / dropped shoulder / funnel neck / elastic hem.",
+  material: "460gsm French terry.",
+  weight: "460 gsm",
+  fibre: "French terry",
+  construction: ["Funnel neck with YKK metal half-zip", "Dropped shoulder", "Ribbed cuffs", "Elastic hem band", "Garment washed"],
+  origin: "Made in Portugal",
+  mill: "Knitted and sewn in Portugal",
   care: ["Machine wash cold, inside out", "Zip closed when washing", "Dry flat", "Do not tumble dry"],
-  colours: [COLOURS.navy, COLOURS.black, COLOURS.grey],
+  colours: [COLOURS.navy, COLOURS.black, COLOURS.washedBrown],
   sizes: TOP_SIZES,
   measurementPoints: [
     { key: "A", label: "Chest, across" },
@@ -321,8 +322,8 @@ export const HALF_ZIP: Product = {
   measurements: Object.fromEntries(Object.entries(HALF_ZIP_CM).map(([s, v]) => [s, v.map((cm) => cm / 2.54)])),
   measurementsCm: HALF_ZIP_CM,
   model: "Model is 6′1″ / 172 lb. Wears M.",
-  fitNote: "Boxy and cropped with dropped shoulders. Take your usual size; size down for a closer fit.",
-  label: ["FINEST UNIFORM", "FORM NO. 005", "COTTON FLEECE", "STANDARD ISSUE"],
+  fitNote: "Shorter and boxy with dropped shoulders. Take your usual size.",
+  label: ["FINEST UNIFORM", "FORM NO. 005", "FRENCH TERRY", "STANDARD ISSUE"],
   compatible: ["001"],
 };
 

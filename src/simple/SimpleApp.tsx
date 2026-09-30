@@ -1,6 +1,6 @@
 "use client";
 
-// A plain-language, single-product shop for the Half-Zip. It shares the
+// A plain-language, single-product shop for the Funnel Neck half-zip. It shares the
 // product data, drawings and cart with the full site and runs its own small
 // in-page navigation (product → cart → checkout → done).
 
@@ -9,10 +9,10 @@ import { fmtIn, fmtPrice, getColour, HALF_ZIP as P } from "@/lib/data";
 import { useStore, type CompletedOrder } from "@/lib/store";
 import { GarmentSVG, type View as Side } from "@/components/garments";
 
-const NAME = "The Half-Zip";
+const NAME = "The Funnel Neck";
 const BLURB =
-  "A heavy cotton half-zip with a stand-up collar. Boxy and a little cropped, with ribbed cuffs and an elastic hem that sits at the waist.";
-const POINTS = ["Heavy 100% cotton fleece", "Metal zip and stand-up collar", "Elastic hem and ribbed cuffs", "Made in the USA"];
+  "A heavyweight 460gsm French terry half-zip with a funnel neck and a YKK metal zip. Cut shorter and boxy, with ribbed cuffs and an elastic hem.";
+const POINTS = ["Heavyweight 460gsm French terry", "Funnel neck with a YKK metal zip", "Elastic hem and ribbed cuffs", "Made in Portugal"];
 const SHIP_FREE = 250;
 const SHIP_FEE = 12;
 
@@ -103,20 +103,14 @@ function ProductPage({ go }: { go: (v: View) => void }) {
   const [needSize, setNeedSize] = useState(false);
   const [added, setAdded] = useState(false);
   const [usual, setUsual] = useState<string | null>(null);
-  const [fit, setFit] = useState<string | null>(null);
   const c = getColour(P, colour);
 
   useEffect(() => {
     if (hydrated && !size && P.sizes.includes(profile.size)) setSize(profile.size);
   }, [hydrated, profile.size, size]);
 
-  // Size finder: the half-zip is cut boxy, so "closer" goes one size down.
-  const suggestion = (() => {
-    if (!usual || !fit) return null;
-    const i = P.sizes.indexOf(usual);
-    const j = Math.min(P.sizes.length - 1, Math.max(0, i + (fit === "Closer" ? -1 : fit === "Roomier" ? 1 : 0)));
-    return P.sizes[j];
-  })();
+  // Size finder: the fit is designed shorter and boxy, so the usual size is the one to take.
+  const suggestion = usual;
 
   return (
     <>
@@ -182,7 +176,7 @@ function ProductPage({ go }: { go: (v: View) => void }) {
               </Choice>
             ))}
           </div>
-          <p className="mt-3 text-sm text-muted">Boxy, cropped fit. Take your usual size, or size down for a closer fit.</p>
+          <p className="mt-3 text-sm text-muted">Shorter, boxy fit. Take your usual size.</p>
 
           <div className="mt-8">
             <Button
@@ -216,10 +210,10 @@ function ProductPage({ go }: { go: (v: View) => void }) {
       {/* Size guide */}
       <section id="size-guide" className="scroll-mt-24 border-t border-ink/10 py-12">
         <h2 className="text-2xl font-semibold md:text-3xl">Size guide</h2>
-        <p className="mt-2 text-charcoal">Measured with the half-zip lying flat.</p>
+        <p className="mt-2 text-charcoal">Measured with the garment lying flat.</p>
         <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
           <div className="self-start overflow-hidden rounded-2xl" style={{ background: PHOTO_BG }}>
-            <img src={MEASURE_PHOTO} alt="Half-zip with measurement lines A (chest), B (body length) and C (sleeve length)" className="h-auto w-full" />
+            <img src={MEASURE_PHOTO} alt="Funnel neck half-zip with measurement lines A (chest), B (body length) and C (sleeve length)" className="h-auto w-full" />
           </div>
           <div className="min-w-0">
             <div className="overflow-x-auto rounded-xl border border-ink/15">
@@ -270,18 +264,10 @@ function ProductPage({ go }: { go: (v: View) => void }) {
                   </Choice>
                 ))}
               </div>
-              <p className="mt-5 font-medium">How do you like it to fit?</p>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {["Closer", "As designed", "Roomier"].map((f) => (
-                  <Choice key={f} on={fit === f} onClick={() => setFit(f)}>
-                    {f}
-                  </Choice>
-                ))}
-              </div>
               {suggestion && (
                 <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-5 animate-rise">
                   <p className="text-lg">
-                    We suggest <span className="font-semibold">{suggestion}</span>
+                    Take your usual size, <span className="font-semibold">{suggestion}</span>
                     <span className="text-charcoal"> · {fmtIn(P.measurements[suggestion][0])} in across the chest</span>
                   </p>
                   <Button
@@ -304,9 +290,9 @@ function ProductPage({ go }: { go: (v: View) => void }) {
 
       <section className="mt-4 grid gap-6 rounded-2xl bg-navy p-8 text-paper md:grid-cols-3 md:p-12">
         {[
-          ["Heavy cotton", "Thick, soft fleece that holds its shape."],
-          ["Won't shrink", "Every piece is washed before it ships."],
-          ["Made in the USA", "Knitted in North Carolina, sewn in Los Angeles."],
+          ["Heavyweight French terry", "460gsm, looped on the inside, and holds its shape."],
+          ["YKK zip", "A metal YKK zip that runs smoothly and lasts."],
+          ["Made in Portugal", "Knitted and sewn in Portugal."],
         ].map(([t, d]) => (
           <div key={t}>
             <p className="text-xl font-semibold">{t}</p>
@@ -330,7 +316,7 @@ function Cart({ go }: { go: (v: View) => void }) {
       <section className="py-16 text-center">
         <h1 className="text-3xl font-semibold">Your cart is empty</h1>
         <div className="mt-6">
-          <Button onClick={() => go({ name: "home" })}>Shop the Half-Zip</Button>
+          <Button onClick={() => go({ name: "home" })}>Shop the Funnel Neck</Button>
         </div>
       </section>
     );
@@ -409,7 +395,7 @@ function Checkout({ go, onDone }: { go: (v: View) => void; onDone: (o: Completed
       <section className="py-16 text-center">
         <h1 className="text-3xl font-semibold">Nothing to check out</h1>
         <div className="mt-6">
-          <Button onClick={() => go({ name: "home" })}>Shop the Half-Zip</Button>
+          <Button onClick={() => go({ name: "home" })}>Shop the Funnel Neck</Button>
         </div>
       </section>
     );
@@ -465,7 +451,7 @@ function Done({ order, go }: { order: CompletedOrder | null; go: (v: View) => vo
         </p>
       )}
       <div className="mt-8">
-        <Button onClick={() => go({ name: "home" })}>Back to the Half-Zip</Button>
+        <Button onClick={() => go({ name: "home" })}>Back to the Funnel Neck</Button>
       </div>
     </section>
   );
@@ -551,7 +537,7 @@ export function SimpleApp() {
 
       <footer className="mt-20 border-t border-ink/10">
         <div className="mx-auto flex max-w-6xl flex-wrap justify-between gap-4 px-4 py-8 text-sm text-muted md:px-8">
-          <p>Finest Uniform · Made in the USA</p>
+          <p>Finest Uniform · Made in Portugal</p>
           <p>Free shipping over {fmtPrice(SHIP_FREE)} · Free returns within 30 days</p>
         </div>
       </footer>
