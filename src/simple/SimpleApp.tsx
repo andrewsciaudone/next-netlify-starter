@@ -151,7 +151,7 @@ function ProductPage({ go }: { go: (v: View) => void }) {
             {P.colours.map((x) => (
               <button
                 key={x.id}
-                onClick={() => setColour(x.id)}
+                onClick={() => { setColour(x.id); setAdded(false); }}
                 aria-label={x.name}
                 aria-pressed={x.id === colour}
                 title={x.name}
@@ -339,7 +339,8 @@ function Cart({ go }: { go: (v: View) => void }) {
   return (
     <section className="grid gap-10 py-8 md:grid-cols-[1fr_22rem] md:py-12">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">Your cart ({count})</h1>
+        <Steps at={0} />
+        <h1 className="mt-4 text-3xl font-semibold tracking-tight">Your cart ({count})</h1>
         <ul className="mt-6 divide-y divide-ink/10 border-y border-ink/10">
           {lines.map((l) => {
             const isHz = l.productId === P.id;
@@ -400,10 +401,167 @@ function Cart({ go }: { go: (v: View) => void }) {
   );
 }
 
-function Checkout({ go, onDone }: { go: (v: View) => void; onDone: (o: CompletedOrder) => void }) {
-  const { total, lines, completeIssue } = useStore();
-  const ship = total >= SHIP_FREE ? 0 : SHIP_FEE;
-  const field = "mt-1 h-12 w-full rounded-xl border border-ink/20 bg-paper px-4 outline-none focus:border-ink";
+/* ---------------------------------------------------------------- checkout */
+
+type Delivery = "standard" | "express";
+
+const DELIVERY: Record<Delivery, { label: string; days: [number, number]; fee: (subtotal: number) => number }> = {
+  standard: { label: "Standard", days: [6, 10], fee: (sub) => (sub >= SHIP_FREE ? 0 : SHIP_FEE) },
+  express: { label: "Express", days: [3, 5], fee: () => 25 },
+};
+
+const STATES: [string, string][] = [
+  ["AL", "Alabama"], ["AK", "Alaska"], ["AZ", "Arizona"], ["AR", "Arkansas"], ["CA", "California"], ["CO", "Colorado"],
+  ["CT", "Connecticut"], ["DE", "Delaware"], ["DC", "District of Columbia"], ["FL", "Florida"], ["GA", "Georgia"],
+  ["HI", "Hawaii"], ["ID", "Idaho"], ["IL", "Illinois"], ["IN", "Indiana"], ["IA", "Iowa"], ["KS", "Kansas"],
+  ["KY", "Kentucky"], ["LA", "Louisiana"], ["ME", "Maine"], ["MD", "Maryland"], ["MA", "Massachusetts"],
+  ["MI", "Michigan"], ["MN", "Minnesota"], ["MS", "Mississippi"], ["MO", "Missouri"], ["MT", "Montana"],
+  ["NE", "Nebraska"], ["NV", "Nevada"], ["NH", "New Hampshire"], ["NJ", "New Jersey"], ["NM", "New Mexico"],
+  ["NY", "New York"], ["NC", "North Carolina"], ["ND", "North Dakota"], ["OH", "Ohio"], ["OK", "Oklahoma"],
+  ["OR", "Oregon"], ["PA", "Pennsylvania"], ["RI", "Rhode Island"], ["SC", "South Carolina"], ["SD", "South Dakota"],
+  ["TN", "Tennessee"], ["TX", "Texas"], ["UT", "Utah"], ["VT", "Vermont"], ["VA", "Virginia"], ["WA", "Washington"],
+  ["WV", "West Virginia"], ["WI", "Wisconsin"], ["WY", "Wyoming"],
+];
+
+/** Everything a shipping label needs, in the shape label tools import. */
+export interface ShipTo {
+  email: string;
+  phone: string;
+  firstName: string;
+  lastName: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
+}
+
+export interface PlacedOrder {
+  order: CompletedOrder;
+  to: ShipTo;
+  delivery: Delivery;
+  shipping: number;
+  subtotal: number;
+  items: { key: string; colour: string; size: string; qty: number }[];
+}
+
+const EMPTY_SHIP: ShipTo = { email: "", phone: "", firstName: "", lastName: "", address1: "", address2: "", city: "", state: "", zip: "" };
+
+function addBusinessDays(from: Date, n: number) {
+  const d = new Date(from);
+  while (n > 0) {
+    d.setDate(d.getDate() + 1);
+    if (d.getDay() !== 0 && d.getDay() !== 6) n--;
+  }
+  return d;
+}
+
+function arrival(delivery: Delivery, from = new Date()) {
+  const [a, b] = DELIVERY[delivery].days;
+  const f = (d: Date) => d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+  return `${f(addBusinessDays(from, a))} – ${f(addBusinessDays(from, b))}`;
+}
+
+function validate(v: ShipTo) {
+  const e: Partial<Record<keyof ShipTo, string>> = {};
+  if (!/^\S+@\S+\.\S+$/.test(v.email.trim())) e.email = "Enter an email address like name@example.com";
+  if (v.phone.trim() && v.phone.replace(/\D/g, "").length < 10) e.phone = "Enter a 10-digit phone number, or leave it blank";
+  if (!v.firstName.trim()) e.firstName = "Enter your first name";
+  if (!v.lastName.trim()) e.lastName = "Enter your last name";
+  if (!v.address1.trim()) e.address1 = "Enter your street address";
+  if (!v.city.trim()) e.city = "Enter your city";
+  if (!v.state) e.state = "Choose your state";
+  if (!/^\d{5}(-\d{4})?$/.test(v.zip.trim())) e.zip = "Enter a 5-digit ZIP code";
+  return e;
+}
+
+const ORDER_FIELDS: (keyof ShipTo)[] = ["email", "phone", "firstName", "lastName", "address1", "address2", "city", "state", "zip"];
+
+function Steps({ at }: { at: 0 | 1 | 2 }) {
+  return (
+    <ol className="flex items-center gap-2 text-sm" aria-label="Checkout steps">
+      {["Cart", "Details", "Confirmation"].map((s, i) => (
+        <li key={s} className="flex items-center gap-2">
+          {i > 0 && <span className="text-muted" aria-hidden>›</span>}
+          <span className={i === at ? "font-semibold text-ink" : "text-muted"} aria-current={i === at ? "step" : undefined}>
+            {s}
+          </span>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+function Field({
+  id,
+  label,
+  value,
+  onChange,
+  error,
+  hint,
+  optional,
+  autoComplete,
+  type = "text",
+  inputMode,
+  className = "",
+}: {
+  id: keyof ShipTo;
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  error?: string;
+  hint?: string;
+  optional?: boolean;
+  autoComplete: string;
+  type?: string;
+  inputMode?: "text" | "email" | "tel" | "numeric";
+  className?: string;
+}) {
+  const describedBy = error ? `${id}-error` : hint ? `${id}-hint` : undefined;
+  return (
+    <div className={className}>
+      <label htmlFor={`co-${id}`} className="text-sm font-medium">
+        {label}
+        {optional && <span className="font-normal text-muted"> (optional)</span>}
+      </label>
+      <input
+        id={`co-${id}`}
+        type={type}
+        inputMode={inputMode}
+        autoComplete={autoComplete}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        aria-invalid={!!error}
+        aria-describedby={describedBy}
+        className={`mt-1 h-12 w-full rounded-xl border bg-paper px-4 outline-none transition-colors focus:border-ink ${
+          error ? "border-[#9a3b1f]" : "border-ink/20"
+        }`}
+      />
+      {error ? (
+        <p id={`${id}-error`} className="mt-1 text-sm text-[#9a3b1f]">
+          {error}
+        </p>
+      ) : hint ? (
+        <p id={`${id}-hint`} className="mt-1 text-sm text-muted">
+          {hint}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+function Checkout({ go, onDone }: { go: (v: View) => void; onDone: (o: PlacedOrder) => void }) {
+  const { total, lines, completeIssue, hydrated } = useStore();
+  const [v, setV] = useState<ShipTo>(EMPTY_SHIP);
+  const [errors, setErrors] = useState<Partial<Record<keyof ShipTo, string>>>({});
+  const [delivery, setDelivery] = useState<Delivery>("standard");
+  const set = (k: keyof ShipTo) => (x: string) => {
+    setV((s) => ({ ...s, [k]: x }));
+    if (errors[k]) setErrors((e) => ({ ...e, [k]: undefined }));
+  };
+  const shipping = DELIVERY[delivery].fee(total);
+
+  if (!hydrated) return <div className="min-h-[50vh]" />;
   if (!lines.length) {
     return (
       <section className="py-16 text-center">
@@ -414,57 +572,275 @@ function Checkout({ go, onDone }: { go: (v: View) => void; onDone: (o: Completed
       </section>
     );
   }
+
+  const submit = () => {
+    const e = validate(v);
+    setErrors(e);
+    const first = ORDER_FIELDS.find((k) => e[k]);
+    if (first) {
+      document.getElementById(`co-${first}`)?.focus();
+      return;
+    }
+    const items = lines.map(({ key, colour, size, qty }) => ({ key, colour, size, qty }));
+    const subtotal = total;
+    const order = completeIssue();
+    if (order) onDone({ order, to: { ...v, zip: v.zip.trim(), email: v.email.trim() }, delivery, shipping, subtotal, items });
+  };
+
+  const errorCount = Object.values(errors).filter(Boolean).length;
+
   return (
-    <section className="mx-auto max-w-xl py-8 md:py-12">
-      <button onClick={() => go({ name: "cart" })} className="text-sm text-muted hover:text-ink">
-        ← Back to cart
-      </button>
-      <h1 className="mt-3 text-3xl font-semibold tracking-tight">Checkout</h1>
-      <form
-        className="mt-6 grid gap-4 sm:grid-cols-2"
-        onSubmit={(e) => {
-          e.preventDefault();
-          const o = completeIssue();
-          if (o) onDone(o);
-        }}
-      >
-        {[
-          ["s-name", "Full name", "name", "sm:col-span-2"],
-          ["s-email", "Email", "email", "sm:col-span-2"],
-          ["s-address", "Street address", "street-address", "sm:col-span-2"],
-          ["s-city", "City", "address-level2", ""],
-          ["s-zip", "ZIP code", "postal-code", ""],
-        ].map(([id, label, auto, span]) => (
-          <label key={id} htmlFor={id} className={`block ${span}`}>
-            <span className="text-sm font-medium">{label}</span>
-            <input id={id} required type={id === "s-email" ? "email" : "text"} autoComplete={auto} className={field} />
-          </label>
-        ))}
-        <p className="rounded-xl bg-paper-2 p-4 text-sm text-charcoal sm:col-span-2">This is a demo shop. No payment is taken.</p>
-        <div className="sm:col-span-2">
-          <Button full type="submit">
-            Place order · {fmtPrice(total + ship)}
-          </Button>
-        </div>
-      </form>
+    <section className="py-8 md:py-12">
+      <Steps at={1} />
+      <h1 className="mt-4 text-3xl font-semibold tracking-tight">Checkout</h1>
+
+      <div className="mt-8 grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_22rem]">
+        <form
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault();
+            submit();
+          }}
+          className="order-2 min-w-0 space-y-10 md:order-1"
+        >
+          {errorCount > 0 && (
+            <p role="alert" className="rounded-xl border border-[#9a3b1f]/40 bg-[#9a3b1f]/5 p-4 text-sm text-[#9a3b1f]">
+              Please fix {errorCount === 1 ? "the highlighted field" : `the ${errorCount} highlighted fields`} below.
+            </p>
+          )}
+
+          <fieldset>
+            <legend className="text-xl font-semibold">1. Contact</legend>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <Field id="email" label="Email" type="email" inputMode="email" autoComplete="email" value={v.email} onChange={set("email")} error={errors.email} hint="We'll send your receipt and tracking here." className="sm:col-span-2" />
+              <Field id="phone" label="Phone" type="tel" inputMode="tel" autoComplete="tel" optional value={v.phone} onChange={set("phone")} error={errors.phone} hint="Only used by the courier if there's a problem." className="sm:col-span-2" />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-xl font-semibold">2. Shipping address</legend>
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <Field id="firstName" label="First name" autoComplete="given-name" value={v.firstName} onChange={set("firstName")} error={errors.firstName} />
+              <Field id="lastName" label="Last name" autoComplete="family-name" value={v.lastName} onChange={set("lastName")} error={errors.lastName} />
+              <Field id="address1" label="Street address" autoComplete="address-line1" value={v.address1} onChange={set("address1")} error={errors.address1} className="sm:col-span-2" />
+              <Field id="address2" label="Apartment, suite, etc." autoComplete="address-line2" optional value={v.address2} onChange={set("address2")} className="sm:col-span-2" />
+              <Field id="city" label="City" autoComplete="address-level2" value={v.city} onChange={set("city")} error={errors.city} className="sm:col-span-2" />
+              <div>
+                <label htmlFor="co-state" className="text-sm font-medium">
+                  State
+                </label>
+                <select
+                  id="co-state"
+                  autoComplete="address-level1"
+                  value={v.state}
+                  onChange={(e) => set("state")(e.target.value)}
+                  aria-invalid={!!errors.state}
+                  aria-describedby={errors.state ? "state-error" : undefined}
+                  className={`mt-1 h-12 w-full rounded-xl border bg-paper px-3 outline-none focus:border-ink ${
+                    errors.state ? "border-[#9a3b1f]" : "border-ink/20"
+                  }`}
+                >
+                  <option value="">Choose…</option>
+                  {STATES.map(([code, name]) => (
+                    <option key={code} value={code}>
+                      {name}
+                    </option>
+                  ))}
+                </select>
+                {errors.state && (
+                  <p id="state-error" className="mt-1 text-sm text-[#9a3b1f]">
+                    {errors.state}
+                  </p>
+                )}
+              </div>
+              <Field id="zip" label="ZIP code" inputMode="numeric" autoComplete="postal-code" value={v.zip} onChange={set("zip")} error={errors.zip} />
+              <p className="text-sm text-muted sm:col-span-2">We currently ship within the United States.</p>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-xl font-semibold">3. Delivery</legend>
+            <div className="mt-4 space-y-3">
+              {(Object.keys(DELIVERY) as Delivery[]).map((k) => {
+                const d = DELIVERY[k];
+                const fee = d.fee(total);
+                const on = delivery === k;
+                return (
+                  <label
+                    key={k}
+                    className={`flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-colors ${on ? "border-ink bg-paper-2" : "border-ink/20 hover:border-ink/50"}`}
+                  >
+                    <input type="radio" name="delivery" checked={on} onChange={() => setDelivery(k)} className="h-5 w-5 accent-[#1c1c1a]" />
+                    <span className="flex-1">
+                      <span className="block font-medium">
+                        {d.label} · {d.days[0]}–{d.days[1]} business days
+                      </span>
+                      <span className="block text-sm text-muted">Arrives {arrival(k)}</span>
+                    </span>
+                    <span className="font-medium">{fee ? fmtPrice(fee) : "Free"}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="text-xl font-semibold">4. Payment</legend>
+            <div className="mt-4 rounded-xl border border-dashed border-ink/30 p-4 text-sm text-charcoal">
+              <p className="font-medium text-ink">Demo shop: no payment is taken.</p>
+              <p className="mt-1">
+                In the live shop, this step opens a secure payment page for card, Apple Pay and Google Pay. Card details are
+                never entered on this page.
+              </p>
+            </div>
+          </fieldset>
+
+          <div>
+            <Button full type="submit">
+              Place order · {fmtPrice(total + shipping)}
+            </Button>
+            <p className="mt-3 text-center text-sm text-muted">Free returns within 30 days.</p>
+          </div>
+        </form>
+
+        {/* Order summary */}
+        <aside className="order-1 h-fit rounded-2xl bg-paper-2 p-6 md:sticky md:top-24 md:order-2">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-lg font-semibold">Order summary</h2>
+            <button onClick={() => go({ name: "cart" })} className="text-sm underline underline-offset-4">
+              Edit
+            </button>
+          </div>
+          <ul className="mt-4 space-y-3">
+            {lines.map((l) => (
+              <li key={l.key} className="flex items-center gap-3">
+                <div className="relative">
+                  <Picture colour={l.colour} className="h-16 w-16" />
+                  <span className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-ink text-xs text-paper">
+                    {l.qty}
+                  </span>
+                </div>
+                <div className="flex-1 text-sm">
+                  <p className="font-medium">{NAME}</p>
+                  <p className="text-muted">
+                    {getColour(P, l.colour).name} · {l.size}
+                  </p>
+                </div>
+                <p className="text-sm tabular-nums">{fmtPrice(P.price * l.qty)}</p>
+              </li>
+            ))}
+          </ul>
+          <dl className="mt-5 space-y-2 border-t border-ink/15 pt-4 text-sm">
+            <div className="flex justify-between">
+              <dt>Subtotal</dt>
+              <dd className="tabular-nums">{fmtPrice(total)}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt>Shipping ({DELIVERY[delivery].label.toLowerCase()})</dt>
+              <dd>{shipping ? fmtPrice(shipping) : "Free"}</dd>
+            </div>
+            <div className="flex justify-between text-muted">
+              <dt>Sales tax</dt>
+              <dd>Calculated at payment</dd>
+            </div>
+            <div className="flex justify-between border-t border-ink/15 pt-3 text-base font-semibold">
+              <dt>Total</dt>
+              <dd className="tabular-nums">{fmtPrice(total + shipping)}</dd>
+            </div>
+          </dl>
+        </aside>
+      </div>
     </section>
   );
 }
 
-function Done({ order, go }: { order: CompletedOrder | null; go: (v: View) => void }) {
+function Done({ placed, go }: { placed: PlacedOrder | null; go: (v: View) => void }) {
+  if (!placed) {
+    return (
+      <section className="py-16 text-center">
+        <h1 className="text-3xl font-semibold">Thanks for your order!</h1>
+        <div className="mt-8">
+          <Button onClick={() => go({ name: "home" })}>Back to the Funnel Neck</Button>
+        </div>
+      </section>
+    );
+  }
+  const { order, to, delivery, shipping, subtotal, items } = placed;
+  const state = STATES.find(([c]) => c === to.state)?.[0] ?? to.state;
   return (
-    <section className="mx-auto max-w-xl py-16 text-center">
-      <p className="text-5xl" aria-hidden>
-        ✓
-      </p>
-      <h1 className="mt-4 text-3xl font-semibold">Thanks for your order!</h1>
-      {order && (
-        <p className="mt-3 text-lg text-charcoal">
-          Order {order.orderNo} · {order.garments.length} {order.garments.length === 1 ? "item" : "items"}. We&rsquo;ll email you
-          when it ships.
-        </p>
-      )}
-      <div className="mt-8">
+    <section className="mx-auto max-w-3xl py-8 md:py-12">
+      <Steps at={2} />
+      <div className="mt-6 flex items-start gap-4">
+        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-ink text-xl text-paper" aria-hidden>
+          ✓
+        </span>
+        <div>
+          <h1 className="text-3xl font-semibold tracking-tight">Thanks, {to.firstName}! Your order is confirmed.</h1>
+          <p className="mt-2 text-lg text-charcoal">
+            Order {order.orderNo}. A receipt is on its way to {to.email}.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+        <div className="rounded-2xl bg-paper-2 p-6">
+          <h2 className="text-sm font-medium text-muted">Shipping to</h2>
+          <address className="mt-2 not-italic leading-relaxed">
+            {to.firstName} {to.lastName}
+            <br />
+            {to.address1}
+            {to.address2 && (
+              <>
+                <br />
+                {to.address2}
+              </>
+            )}
+            <br />
+            {to.city}, {state} {to.zip}
+            <br />
+            United States
+          </address>
+        </div>
+        <div className="rounded-2xl bg-paper-2 p-6">
+          <h2 className="text-sm font-medium text-muted">Delivery</h2>
+          <p className="mt-2 font-medium">{DELIVERY[delivery].label}</p>
+          <p className="text-charcoal">Estimated arrival {arrival(delivery)}</p>
+          <p className="mt-3 text-sm text-muted">We&rsquo;ll email a tracking link when it ships.</p>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-ink/10 p-6">
+        <ul className="divide-y divide-ink/10">
+          {items.map((l) => (
+            <li key={l.key} className="flex items-center gap-4 py-3">
+              <Picture colour={l.colour} className="h-16 w-16 shrink-0" />
+              <p className="flex-1">
+                {NAME}
+                <span className="block text-sm text-muted">
+                  {getColour(P, l.colour).name} · {l.size} · Qty {l.qty}
+                </span>
+              </p>
+              <p className="tabular-nums">{fmtPrice(P.price * l.qty)}</p>
+            </li>
+          ))}
+        </ul>
+        <dl className="mt-3 space-y-1 border-t border-ink/10 pt-3 text-sm">
+          <div className="flex justify-between">
+            <dt>Subtotal</dt>
+            <dd className="tabular-nums">{fmtPrice(subtotal)}</dd>
+          </div>
+          <div className="flex justify-between">
+            <dt>Shipping</dt>
+            <dd>{shipping ? fmtPrice(shipping) : "Free"}</dd>
+          </div>
+          <div className="flex justify-between text-base font-semibold">
+            <dt>Total</dt>
+            <dd className="tabular-nums">{fmtPrice(subtotal + shipping)}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <div className="mt-8 text-center">
         <Button onClick={() => go({ name: "home" })}>Back to the Funnel Neck</Button>
       </div>
     </section>
@@ -476,7 +852,7 @@ function Done({ order, go }: { order: CompletedOrder | null; go: (v: View) => vo
 export function SimpleApp() {
   const { count, hydrated } = useStore();
   const [view, setView] = useState<View>({ name: "home" });
-  const [order, setOrder] = useState<CompletedOrder | null>(null);
+  const [placed, setPlaced] = useState<PlacedOrder | null>(null);
 
   useEffect(() => {
     setView(fromHash(window.location.hash));
@@ -505,14 +881,14 @@ export function SimpleApp() {
         <Checkout
           go={go}
           onDone={(o) => {
-            setOrder(o);
+            setPlaced(o);
             go({ name: "done" });
           }}
         />
       );
       break;
     case "done":
-      page = <Done order={order} go={go} />;
+      page = <Done placed={placed} go={go} />;
       break;
     default:
       page = <ProductPage go={go} />;
