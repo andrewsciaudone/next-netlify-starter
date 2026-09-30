@@ -33,9 +33,10 @@ The footer has a **Reset prototype** link that clears local data. When presentin
 
 ## Simple version
 
-`/simple` is a plain-language version of the shop: Shop, Help me choose, Cart and Checkout, with the four
-products named The T-shirt, The Polo, The Sweatshirt and The Hoodie. It shares the product data, drawings and
-cart with the full site (`src/simple/SimpleApp.tsx`). `npm run build:simple` builds it as one standalone page,
+`/simple` is a plain-language, single-product shop for the Half-Zip (form 005): product page with colours and
+sizes, a size guide (A chest, B body length, C sleeve length — from the supplied cm chart, shown in inches with
+cm), a two-question size finder, cart and checkout. It shares data, drawings and cart with the full site
+(`src/simple/SimpleApp.tsx`). `npm run build:simple` builds it as one standalone page,
 `present/dist/finest-uniform-simple.html`.
 
 ## Presentation build

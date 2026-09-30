@@ -269,6 +269,51 @@ function Hood({ t, view }: PartProps) {
   );
 }
 
+/* -------------------------------------------------------------- HALF-ZIP */
+
+export const HALFZIP_OUTLINE =
+  "M166,60 L234,60 L308,92 C330,130 342,200 346,260 L360,410 L358,442 L312,446 L312,412 L292,205 L294,382 L292,406 C240,411 160,411 108,406 L106,382 L108,205 L88,412 L88,446 L42,442 L40,410 L54,260 C58,200 70,130 92,92 Z";
+
+function HalfZip({ t, view }: PartProps) {
+  const metal = t.line ? "none" : "#b9bcc0";
+  return (
+    <g>
+      <Shape d={HALFZIP_OUTLINE} t={t} />
+      <Fold d="M150,230 C156,290 154,340 150,378" t={t} />
+      <Fold d="M252,230 C246,290 248,340 252,378" t={t} />
+      <Fold d="M318,240 C326,300 334,350 342,390" t={t} />
+      <Fold d="M82,240 C74,300 66,350 58,390" t={t} />
+      {/* dropped shoulder seams */}
+      <Seam d="M92,92 C100,130 106,170 108,205" t={t} />
+      <Seam d="M308,92 C300,130 294,170 292,205" t={t} />
+      {/* elastic hem band, gathered */}
+      <Seam d="M106,382 C160,386 240,386 294,382" t={t} />
+      <Stitch d="M107,394 C160,398 240,398 293,394" t={t} />
+      {/* ribbed cuffs */}
+      <Seam d="M40,410 L88,412" t={t} />
+      <Seam d="M360,410 L312,412" t={t} />
+      <Ribs x1={40} x2={88} y1={411} y2={444} t={t} n={7} />
+      <Ribs x1={312} x2={360} y1={411} y2={444} t={t} n={7} />
+      {/* stand collar */}
+      <Shape d="M168,18 L232,18 L236,64 C220,70 180,70 164,64 Z" t={t} />
+      <Shape d="M168,18 L232,18 L230,27 C214,31 186,31 170,27 Z" t={t} fill={t.shade} />
+      <Stitch d="M166,56 C182,62 218,62 234,56" t={t} />
+      {view === "front" ? (
+        <>
+          <Shape d="M194,24 L206,24 L206,196 L194,196 Z" t={t} fill={t.shade} />
+          <Stitch d="M190,64 L190,200 L210,200 L210,64" t={t} />
+          <line x1={200} y1={28} x2={200} y2={190} stroke={t.line ? t.edge : metal} strokeWidth={4} strokeDasharray="1.6 1.4" />
+          <rect x={196} y={28} width={8} height={20} rx={1.5} fill={metal} stroke={t.edge} strokeWidth={0.6} vectorEffect="non-scaling-stroke" />
+          <rect x={198.5} y={42} width={3} height={3} fill={t.line ? "none" : t.shade} />
+          <rect x={196} y={188} width={8} height={6} fill={metal} stroke={t.edge} strokeWidth={0.6} vectorEffect="non-scaling-stroke" />
+        </>
+      ) : (
+        <rect x={193} y={70} width={14} height={8} fill={t.line ? "none" : "var(--color-paper)"} stroke={t.edge} strokeWidth={0.6} vectorEffect="non-scaling-stroke" opacity={0.9} />
+      )}
+    </g>
+  );
+}
+
 /* ------------------------------------------------------------ OVERSHIRT */
 
 export const OVERSHIRT_OUTLINE =
@@ -398,6 +443,8 @@ export function GarmentShape({
       return <Tee t={t} view={view} />;
     case "polo":
       return <Polo t={t} view={view} />;
+    case "halfzip":
+      return <HalfZip t={t} view={view} />;
     case "sweat":
       return <Sweat t={t} view={view} />;
     case "hood":
@@ -447,6 +494,11 @@ const TEE_DIMS: { k: string; a: Pt; b: Pt; off: number }[] = [
 const DIMS: Record<GarmentKind, { k: string; a: Pt; b: Pt; off: number }[]> = {
   tee: TEE_DIMS,
   polo: TEE_DIMS,
+  halfzip: [
+    { k: "A", a: [108, 230], b: [292, 230], off: 0 },
+    { k: "B", a: [234, 60], b: [234, 408], off: -30 },
+    { k: "C", a: [308, 92], b: [359, 444], off: -24 },
+  ],
   sweat: [
     { k: "A", a: [104, 160], b: [296, 160], off: 0 },
     { k: "B", a: [165, 54], b: [165, 448], off: -150 },

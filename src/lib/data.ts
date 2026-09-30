@@ -1,7 +1,7 @@
 // Local mock catalogue for the Finest Uniform prototype.
 
 export type Slot = "base" | "mid" | "outer" | "bottom";
-export type GarmentKind = "tee" | "polo" | "sweat" | "hood" | "overshirt" | "trouser";
+export type GarmentKind = "tee" | "polo" | "halfzip" | "sweat" | "hood" | "overshirt" | "trouser";
 export type Status = "available" | "pre-issue" | "fully-issued";
 
 export interface Colour {
@@ -37,6 +37,7 @@ export interface Product {
   sizes: string[];
   measurementPoints: { key: string; label: string }[];
   measurements: Record<string, number[]>; // size -> inches by point, garment measured flat
+  measurementsCm?: Record<string, number[]>; // the source chart, where it was given in cm
   model: string;
   fitNote: string;
   label: string[];
@@ -280,8 +281,53 @@ export const PRODUCTS: Product[] = [
 ];
 
 
+/** The half-zip, sold on its own in the simple shop. Measurements from the supplied chart (cm). */
+const HALF_ZIP_CM: Record<string, number[]> = {
+  XS: [55.5, 60, 60],
+  S: [58.5, 61.5, 61],
+  M: [61.5, 63, 62],
+  L: [64.5, 64.5, 63],
+  XL: [67.5, 66, 64],
+  XXL: [70.5, 67.5, 65],
+};
+
+export const HALF_ZIP: Product = {
+  id: "005",
+  name: "Half-Zip Sweatshirt",
+  kind: "halfzip",
+  slot: "mid",
+  price: 178,
+  issue: "01",
+  issueDate: "09.26",
+  issueMonth: "September 2026",
+  status: "available",
+  statement: "A heavy cotton half-zip with a stand collar, cut boxy and a little cropped.",
+  purpose: "Mid layer. Over a T-shirt or on its own.",
+  form: "Boxy body / dropped shoulder / stand collar / elastic hem.",
+  material: "Heavy cotton fleece.",
+  weight: "[__] gsm",
+  fibre: "100% cotton",
+  construction: ["Stand collar with metal half-zip", "Dropped shoulder", "Ribbed cuffs", "Elastic hem band", "Garment washed"],
+  origin: "Made in the USA",
+  mill: "Knitted in North Carolina, sewn in Los Angeles",
+  care: ["Machine wash cold, inside out", "Zip closed when washing", "Dry flat", "Do not tumble dry"],
+  colours: [COLOURS.navy, COLOURS.black, COLOURS.grey],
+  sizes: TOP_SIZES,
+  measurementPoints: [
+    { key: "A", label: "Chest, across" },
+    { key: "B", label: "Body length" },
+    { key: "C", label: "Sleeve length" },
+  ],
+  measurements: Object.fromEntries(Object.entries(HALF_ZIP_CM).map(([s, v]) => [s, v.map((cm) => cm / 2.54)])),
+  measurementsCm: HALF_ZIP_CM,
+  model: "Model is 6′1″ / 172 lb. Wears M.",
+  fitNote: "Boxy and cropped with dropped shoulders. Take your usual size; size down for a closer fit.",
+  label: ["FINEST UNIFORM", "FORM NO. 005", "COTTON FLEECE", "STANDARD ISSUE"],
+  compatible: ["001"],
+};
+
 export function getProduct(id: string): Product | undefined {
-  return PRODUCTS.find((p) => p.id === id);
+  return PRODUCTS.find((p) => p.id === id) ?? (id === HALF_ZIP.id ? HALF_ZIP : undefined);
 }
 
 export function getColour(product: Product, colourId: string): Colour {
