@@ -103,14 +103,20 @@ function ProductPage({ go }: { go: (v: View) => void }) {
   const [needSize, setNeedSize] = useState(false);
   const [added, setAdded] = useState(false);
   const [usual, setUsual] = useState<string | null>(null);
+  const [fit, setFit] = useState<string | null>(null);
   const c = getColour(P, colour);
 
   useEffect(() => {
     if (hydrated && !size && P.sizes.includes(profile.size)) setSize(profile.size);
   }, [hydrated, profile.size, size]);
 
-  // Size finder: the fit is designed shorter and boxy, so the usual size is the one to take.
-  const suggestion = usual;
+  // Size finder: the fit is shorter and boxy, so "closer" goes one size down and "roomier" one up.
+  const suggestion = (() => {
+    if (!usual || !fit) return null;
+    const i = P.sizes.indexOf(usual);
+    const j = Math.min(P.sizes.length - 1, Math.max(0, i + (fit === "Closer" ? -1 : fit === "Roomier" ? 1 : 0)));
+    return P.sizes[j];
+  })();
 
   return (
     <>
@@ -264,10 +270,18 @@ function ProductPage({ go }: { go: (v: View) => void }) {
                   </Choice>
                 ))}
               </div>
+              <p className="mt-5 font-medium">How do you like it to fit?</p>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {["Closer", "As designed", "Roomier"].map((f) => (
+                  <Choice key={f} on={fit === f} onClick={() => setFit(f)}>
+                    {f}
+                  </Choice>
+                ))}
+              </div>
               {suggestion && (
                 <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-ink/10 pt-5 animate-rise">
                   <p className="text-lg">
-                    Take your usual size, <span className="font-semibold">{suggestion}</span>
+                    We suggest <span className="font-semibold">{suggestion}</span>
                     <span className="text-charcoal"> · {fmtIn(P.measurements[suggestion][0])} in across the chest</span>
                   </p>
                   <Button
