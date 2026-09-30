@@ -3,7 +3,7 @@
 //   node present/build.mjs simple  →  present/dist/finest-uniform-simple.html (plain-language shop)
 import { build } from "esbuild";
 import { execFileSync } from "node:child_process";
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
@@ -58,6 +58,8 @@ const html = `${meta}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
 <script>${code}</script>
 `;
+// The simple shop's product photos are published beside the page at simple/*.jpg.
+if (simple) cpSync(path.join(root, "public/simple"), path.join(out, "simple"), { recursive: true });
 const file = simple ? "finest-uniform-simple.html" : "finest-uniform.html";
 writeFileSync(path.join(out, file), html);
 console.log(`present/dist/${file}  ${(html.length / 1024).toFixed(0)} KB`);

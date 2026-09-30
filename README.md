@@ -37,7 +37,9 @@ The footer has a **Reset prototype** link that clears local data. When presentin
 sizes, a size guide (A chest, B body length, C sleeve length — from the supplied cm chart, shown in inches with
 cm), a two-question size finder, cart and checkout. It shares data, drawings and cart with the full site
 (`src/simple/SimpleApp.tsx`). `npm run build:simple` builds it as one standalone page,
-`present/dist/finest-uniform-simple.html`.
+`present/dist/finest-uniform-simple.html`, with the product photos from `public/simple/` copied beside it
+(publish them with the page as `simple/*.jpg`). Navy uses the supplied photo; other colours and the back view use
+the drawing.
 
 ## Presentation build
 

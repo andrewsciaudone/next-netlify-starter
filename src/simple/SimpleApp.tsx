@@ -7,7 +7,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { fmtIn, fmtPrice, getColour, HALF_ZIP as P } from "@/lib/data";
 import { useStore, type CompletedOrder } from "@/lib/store";
-import { GarmentSVG, MeasureDiagram, type View as Side } from "@/components/garments";
+import { GarmentSVG, type View as Side } from "@/components/garments";
 
 const NAME = "The Half-Zip";
 const BLURB =
@@ -15,6 +15,13 @@ const BLURB =
 const POINTS = ["Heavy 100% cotton fleece", "Metal zip and stand-up collar", "Elastic hem and ribbed cuffs", "Made in the USA"];
 const SHIP_FREE = 250;
 const SHIP_FEE = 12;
+
+// Supplied product photography. Paths are relative so they resolve both at
+// /simple in the app and beside the standalone page.
+const PHOTO: Record<string, string> = { navy: "simple/halfzip-navy.jpg" };
+const MEASURE_PHOTO = "simple/halfzip-measure.jpg";
+const PHOTO_BG = "#F7F6F3"; // the photos' own background
+const GUIDE_BLUE = "#2F6FD6"; // matches the lines on the measurement photo
 
 /* ------------------------------------------------------------- navigation */
 
@@ -55,8 +62,16 @@ function Button({
 
 function Picture({ colour, side = "front", className = "" }: { colour: string; side?: Side; className?: string }) {
   const c = getColour(P, colour);
+  const photo = side === "front" ? PHOTO[c.id] : undefined;
+  if (photo) {
+    return (
+      <div className={`flex items-center justify-center overflow-hidden rounded-2xl ${className}`} style={{ background: PHOTO_BG }}>
+        <img key={photo} src={photo} alt={`${NAME} in ${c.name}, front`} className="fade-layer h-full w-full object-contain" />
+      </div>
+    );
+  }
   return (
-    <div className={`flex items-center justify-center rounded-2xl bg-paper-2 ${className}`}>
+    <div className={`flex items-center justify-center rounded-2xl ${className}`} style={{ background: PHOTO_BG }}>
       <GarmentSVG key={`${c.id}-${side}`} kind={P.kind} hex={c.hex} view={side} className="fade-layer h-[80%] w-auto" title={`${NAME} in ${c.name}, ${side}`} />
     </div>
   );
@@ -203,8 +218,8 @@ function ProductPage({ go }: { go: (v: View) => void }) {
         <h2 className="text-2xl font-semibold md:text-3xl">Size guide</h2>
         <p className="mt-2 text-charcoal">Measured with the half-zip lying flat.</p>
         <div className="mt-8 grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-          <div className="rounded-2xl bg-paper-2 p-4">
-            <MeasureDiagram kind={P.kind} className="mx-auto h-auto w-full max-w-md" />
+          <div className="self-start overflow-hidden rounded-2xl" style={{ background: PHOTO_BG }}>
+            <img src={MEASURE_PHOTO} alt="Half-zip with measurement lines A (chest), B (body length) and C (sleeve length)" className="h-auto w-full" />
           </div>
           <div className="min-w-0">
             <div className="overflow-x-auto rounded-xl border border-ink/15">
@@ -223,7 +238,8 @@ function ProductPage({ go }: { go: (v: View) => void }) {
                   {P.measurementPoints.map((pt, i) => (
                     <tr key={pt.key} className="border-t border-ink/10">
                       <td className="px-3 py-3 text-sm">
-                        <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full bg-accent text-xs font-medium text-paper">
+                        <span className="mr-2 inline-flex h-6 w-6 items-center justify-center rounded-full text-xs font-medium text-paper"
+                          style={{ background: GUIDE_BLUE }}>
                           {pt.key}
                         </span>
                         {pt.label}
