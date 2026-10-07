@@ -12,7 +12,7 @@ export function Footer() {
     <footer className="mt-24 border-t rule">
       <div className="shell grid grid-cols-2 gap-x-6 gap-y-10 py-10 md:grid-cols-12">
         <div className="col-span-2 md:col-span-5">
-          <p className="text-[0.8125rem] font-semibold tracking-[0.22em]">FINEST UNIFORM</p>
+          <p className="text-[0.8125rem] font-semibold tracking-[0.22em]">FORM STANDARD</p>
           <p className="mt-4 max-w-[22rem] text-sm leading-relaxed text-charcoal">
             The clothes you wear when you don&rsquo;t want to think about clothes. The everyday extension of Finest
             Form, tailors.
@@ -30,7 +30,7 @@ export function Footer() {
         </ol>
       </div>
       <div className="shell flex justify-between gap-4 border-t rule py-4 label text-muted">
-        <span>Form No. FU-000 — A Finest Form company</span>
+        <span>Form No. FS-000 — A Finest Form company</span>
         <span className="hidden md:inline">Use ← → to move between steps</span>
         <button
           onClick={resetPrototype}

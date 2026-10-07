@@ -66,7 +66,7 @@ interface Store extends State {
   total: number;
 }
 
-const KEY = "finest-uniform:v2";
+const KEY = "form-standard:v1";
 
 const initial: State = {
   lines: [],

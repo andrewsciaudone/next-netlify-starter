@@ -46,7 +46,7 @@ export default function Home() {
         <div className="grid grid-cols-12 gap-x-4 gap-y-8 pb-10 pt-10 md:pb-14 md:pt-16">
           <div className="col-span-12 animate-rise md:col-span-7">
             <h1 className="text-[2.5rem] font-medium leading-[0.95] tracking-[-0.03em] sm:text-[3.5rem] lg:text-[4.5rem]">
-              FINEST UNIFORM
+              FORM STANDARD
             </h1>
             <p className="mt-5 text-lg leading-snug text-charcoal md:text-xl">Everyday clothing, issued with purpose.</p>
           </div>

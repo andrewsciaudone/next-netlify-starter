@@ -37,7 +37,7 @@ export function YourUniform({ onRetake }: { onRetake: () => void }) {
         <span>Record No. {profile.recordNo}</span>
         <span className="text-right md:text-left">Consultation {fmtDay(date)}</span>
         <span className="hidden md:block">Standard size {consultation.size}</span>
-        <span className="hidden text-right md:block">Prepared by Finest Uniform</span>
+        <span className="hidden text-right md:block">Prepared by Form Standard</span>
       </div>
 
       <div className="mt-10 grid grid-cols-12 gap-x-4 gap-y-12 md:mt-14">

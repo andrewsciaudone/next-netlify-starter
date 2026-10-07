@@ -28,7 +28,7 @@ export function Header() {
       <header className="sticky top-[env(safe-area-inset-top,0px)] z-40 bg-paper/95 backdrop-blur-[2px]">
         <div className="shell flex h-14 items-center justify-between gap-6">
           <Link href="/" className="whitespace-nowrap text-[0.8125rem] font-semibold tracking-[0.22em]">
-            FINEST UNIFORM
+            FORM STANDARD
           </Link>
 
           <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">

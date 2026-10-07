@@ -1,6 +1,6 @@
-# Finest Uniform — prototype
+# Form Standard — prototype
 
-A working ecommerce prototype for **Finest Uniform**, the everyday extension of the tailoring brand Finest Form.
+A working ecommerce prototype for **Form Standard**, the everyday extension of the tailoring brand Finest Form.
 
 > The clothes you wear when you don't want to think about clothes.
 
@@ -37,14 +37,14 @@ The footer has a **Reset prototype** link that clears local data. When presentin
 sizes, a size guide (A chest, B body length, C sleeve length — from the supplied cm chart, shown in inches with
 cm), a two-question size finder, cart and checkout. It shares data, drawings and cart with the full site
 (`src/simple/SimpleApp.tsx`). `npm run build:simple` builds it as one standalone page,
-`present/dist/finest-uniform-simple.html`, with the product photos from `public/simple/` copied beside it
+`present/dist/form-standard-simple.html`, with the product photos from `public/simple/` copied beside it
 (publish them with the page as `simple/*.jpg`). Navy uses the supplied photo; other colours and the back view use
 the drawing.
 
 ## Presentation build
 
 `npm run build:present` bundles the same components into one self-contained page,
-`present/dist/finest-uniform.html` (React from cdnjs, everything else inlined). `present/shims/` stand in for
+`present/dist/form-standard.html` (React from cdnjs, everything else inlined). `present/shims/` stand in for
 `next/link` and `next/navigation` with a small in-page router.
 
 ## Structure

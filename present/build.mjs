@@ -1,6 +1,6 @@
 // Builds the prototype into one self-contained HTML file for presenting:
-//   node present/build.mjs         →  present/dist/finest-uniform.html        (full site)
-//   node present/build.mjs simple  →  present/dist/finest-uniform-simple.html (plain-language shop)
+//   node present/build.mjs         →  present/dist/form-standard.html        (full site)
+//   node present/build.mjs simple  →  present/dist/form-standard-simple.html (plain-language shop)
 import { build } from "esbuild";
 import { execFileSync } from "node:child_process";
 import { cpSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -46,8 +46,8 @@ const css = readFileSync(cssFile, "utf8");
 const code = js.outputFiles[0].text.replace(/<\/script/gi, "<\\/script");
 
 const meta = simple
-  ? `<title>Finest Uniform Shop</title>\n<meta name="description" content="A simple shop for four everyday basics, made in the USA.">`
-  : `<title>Finest Uniform</title>\n<meta name="description" content="Everyday clothing, issued with purpose. A five-step prototype: homepage, Uniform 001, Build Your Uniform, Uniform Record, Your Issue.">`;
+  ? `<title>Form Standard Shop</title>\n<meta name="description" content="A single-product shop for the Funnel Neck half-zip, made in Portugal.">`
+  : `<title>Form Standard</title>\n<meta name="description" content="Everyday clothing, issued with purpose. A five-step prototype: homepage, Uniform 001, Build Your Uniform, Uniform Record, Your Issue.">`;
 const html = `${meta}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,6 +60,6 @@ const html = `${meta}
 `;
 // The simple shop's product photos are published beside the page at simple/*.jpg.
 if (simple) cpSync(path.join(root, "public/simple"), path.join(out, "simple"), { recursive: true });
-const file = simple ? "finest-uniform-simple.html" : "finest-uniform.html";
+const file = simple ? "form-standard-simple.html" : "form-standard.html";
 writeFileSync(path.join(out, file), html);
 console.log(`present/dist/${file}  ${(html.length / 1024).toFixed(0)} KB`);

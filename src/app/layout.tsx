@@ -10,8 +10,8 @@ import { KeyNav } from "@/components/KeyNav";
 
 export const metadata: Metadata = {
   title: {
-    default: "Finest Uniform — Everyday clothing, issued with purpose",
-    template: "%s — Finest Uniform",
+    default: "Form Standard — Everyday clothing, issued with purpose",
+    template: "%s — Form Standard",
   },
   description:
     "The clothes you wear when you don't want to think about clothes. Numbered forms, issued with purpose. The everyday extension of Finest Form.",

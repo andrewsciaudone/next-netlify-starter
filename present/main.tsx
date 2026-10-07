@@ -26,7 +26,7 @@ function App() {
 
   useEffect(() => {
     const step = FLOW[flowIndex(path)];
-    document.title = path === "/" ? "Finest Uniform" : `${step.label} — Finest Uniform`;
+    document.title = path === "/" ? "Form Standard" : `${step.label} — Form Standard`;
   }, [path]);
 
   return (

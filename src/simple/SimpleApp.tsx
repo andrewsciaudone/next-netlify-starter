@@ -902,7 +902,7 @@ export function SimpleApp() {
             onClick={() => go({ name: "home" })}
             className="whitespace-nowrap text-xs font-semibold tracking-[0.18em] sm:text-sm sm:tracking-[0.2em]"
           >
-            FINEST UNIFORM
+            FORM STANDARD
           </button>
           <nav className="flex items-center gap-5 text-sm md:gap-8" aria-label="Main">
             <button
@@ -927,7 +927,7 @@ export function SimpleApp() {
 
       <footer className="mt-20 border-t border-ink/10">
         <div className="mx-auto flex max-w-6xl flex-wrap justify-between gap-4 px-4 py-8 text-sm text-muted md:px-8">
-          <p>Finest Uniform · Made in Portugal</p>
+          <p>Form Standard · Made in Portugal</p>
           <p>Free shipping over {fmtPrice(SHIP_FREE)} · Free returns within 30 days</p>
         </div>
       </footer>

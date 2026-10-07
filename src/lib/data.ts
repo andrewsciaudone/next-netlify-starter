@@ -1,4 +1,4 @@
-// Local mock catalogue for the Finest Uniform prototype.
+// Local mock catalogue for the Form Standard prototype.
 
 export type Slot = "base" | "mid" | "outer" | "bottom";
 export type GarmentKind = "tee" | "polo" | "halfzip" | "sweat" | "hood" | "overshirt" | "trouser";
@@ -120,7 +120,7 @@ export const PRODUCTS: Product[] = [
     model: "Model is 6′1″ / 172 lb. Chest 38 in. Wears M.",
     fitNote:
       "Cut to finish at the belt line. Take your usual size for the intended fit; one size down for a closer chest.",
-    label: ["FINEST UNIFORM", "FORM NO. 001", "COTTON JERSEY", "STANDARD ISSUE"],
+    label: ["FORM STANDARD", "FORM NO. 001", "COTTON JERSEY", "STANDARD ISSUE"],
     compatible: ["002", "003"],
   },
   {
@@ -172,7 +172,7 @@ export const PRODUCTS: Product[] = [
     },
     model: "Model is 6′1″ / 172 lb. Wears M.",
     fitNote: "Cut to sit over 001 without pulling. Take your usual size.",
-    label: ["FINEST UNIFORM", "FORM NO. 002", "LOOPBACK COTTON", "STANDARD ISSUE"],
+    label: ["FORM STANDARD", "FORM NO. 002", "LOOPBACK COTTON", "STANDARD ISSUE"],
     compatible: ["001"],
   },
   {
@@ -224,7 +224,7 @@ export const PRODUCTS: Product[] = [
     },
     model: "Model is 6′1″ / 172 lb. Wears M.",
     fitNote: "Same block as 002, with ½ in added to the chest for ease over layers.",
-    label: ["FINEST UNIFORM", "FORM NO. 003", "LOOPBACK COTTON", "STANDARD ISSUE"],
+    label: ["FORM STANDARD", "FORM NO. 003", "LOOPBACK COTTON", "STANDARD ISSUE"],
     compatible: ["001"],
   },
   {
@@ -276,7 +276,7 @@ export const PRODUCTS: Product[] = [
     },
     model: "Model is 6′1″ / 172 lb. Chest 38 in. Wears M.",
     fitNote: "Cut on the 001 block, ½ in longer. Take your 001 size.",
-    label: ["FINEST UNIFORM", "FORM NO. 004", "JERSEY POLO", "STANDARD ISSUE"],
+    label: ["FORM STANDARD", "FORM NO. 004", "JERSEY POLO", "STANDARD ISSUE"],
     compatible: ["002", "003"],
   },
 ];
@@ -323,7 +323,7 @@ export const HALF_ZIP: Product = {
   measurementsCm: HALF_ZIP_CM,
   model: "Model is 6′1″ / 172 lb. Wears M.",
   fitNote: "Shorter and boxy with dropped shoulders. Take your usual size.",
-  label: ["FINEST UNIFORM", "FORM NO. 005", "FRENCH TERRY", "STANDARD ISSUE"],
+  label: ["FORM STANDARD", "FORM NO. 005", "FRENCH TERRY", "STANDARD ISSUE"],
   compatible: ["001"],
 };
 
