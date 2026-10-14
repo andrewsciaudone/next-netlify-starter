@@ -45,12 +45,9 @@ export default function Home() {
         />
       </figure>
 
-      <header className="brand">
-        <h1>Finest Form</h1>
-        <p className="label">Boston</p>
-      </header>
-
       <main>
+        <h1 className="sr-only">Finest Form</h1>
+        <p className="label eyebrow">Boston</p>
         <p className="lede">A considered approach to getting dressed.</p>
         <p className="body">
           Relaxed tailoring. Thoughtful proportions. A wardrobe built around the way you live.

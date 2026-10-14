@@ -29,19 +29,18 @@ html, body {
   min-height: 100vh;
   max-width: 34rem;
   margin: 0 auto;
-  padding: 3.5rem 1.5rem 2.5rem;
+  padding: 1.5rem 1.5rem 2.5rem;
   display: grid;
-  grid-template-areas: 'brand' 'hero' 'main' 'footer';
-  grid-template-rows: auto auto 1fr auto;
+  grid-template-areas: 'hero' 'main' 'footer';
+  grid-template-rows: auto 1fr auto;
   animation: rise 700ms var(--ease) both;
 }
-.brand { grid-area: brand; }
 main { grid-area: main; }
 .page > footer { grid-area: footer; }
 
 .hero {
   grid-area: hero;
-  margin: 2.5rem 0 0;
+  margin: 0;
 }
 .hero img {
   display: block;
@@ -55,7 +54,7 @@ main { grid-area: main; }
     max-width: 76rem;
     padding: 3rem 3rem 2.5rem;
     grid-template-columns: minmax(0, 1fr) minmax(0, 30rem);
-    grid-template-areas: 'hero brand' 'hero main' 'hero footer';
+    grid-template-areas: 'hero main' 'hero footer';
     column-gap: clamp(3rem, 7vw, 7rem);
     align-items: center;
   }
@@ -65,7 +64,6 @@ main { grid-area: main; }
     /* Size to the viewport height while keeping the photo's full frame */
     width: min(100%, calc(clamp(34rem, 100vh - 6rem, 60rem) * 1113 / 1670));
   }
-  .brand { align-self: start; padding-top: 1rem; }
   .page > footer { align-self: end; }
 }
 
@@ -78,16 +76,7 @@ main { grid-area: main; }
 }
 .muted { color: var(--muted); }
 
-.brand { text-align: center; }
-.brand h1 {
-  margin: 0 0 0.25rem;
-  font-family: var(--display);
-  font-size: 1.75rem;
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-.brand .label { font-size: 0.75rem; letter-spacing: 0.4em; color: var(--charcoal); }
+.eyebrow { margin-bottom: 1.25rem; font-size: 0.75rem; letter-spacing: 0.4em; color: var(--charcoal); }
 
 main {
   display: flex;
