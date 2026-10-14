@@ -4,7 +4,7 @@ Single landing page with a waitlist form that writes to the Finest Form **Waitli
 
 ## Setup
 
-Set these environment variables in Netlify (Site settings → Environment variables):
+Set these environment variables in Vercel (Project → Settings → Environment Variables):
 
 - `NOTION_TOKEN` — secret for a Notion internal integration that has been given access to the Waitlist database (Notion → Waitlist → ••• → Connections).
 - `NOTION_WAITLIST_DB_ID` — optional; defaults to the existing Waitlist database.
