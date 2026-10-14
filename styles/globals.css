@@ -29,10 +29,44 @@ html, body {
   min-height: 100vh;
   max-width: 34rem;
   margin: 0 auto;
-  padding: 4rem 1.5rem 2.5rem;
-  display: flex;
-  flex-direction: column;
+  padding: 3.5rem 1.5rem 2.5rem;
+  display: grid;
+  grid-template-areas: 'brand' 'hero' 'main' 'footer';
+  grid-template-rows: auto auto 1fr auto;
   animation: rise 700ms var(--ease) both;
+}
+.brand { grid-area: brand; }
+main { grid-area: main; }
+.page > footer { grid-area: footer; }
+
+.hero {
+  grid-area: hero;
+  margin: 2.5rem 0 0;
+}
+.hero img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 2px solid var(--ink);
+}
+
+@media (min-width: 900px) {
+  .page {
+    max-width: 76rem;
+    padding: 3rem 3rem 2.5rem;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 30rem);
+    grid-template-areas: 'hero brand' 'hero main' 'hero footer';
+    column-gap: clamp(3rem, 7vw, 7rem);
+    align-items: center;
+  }
+  .hero {
+    margin: 0;
+    justify-self: end;
+    /* Size to the viewport height while keeping the photo's full frame */
+    width: min(100%, calc(clamp(34rem, 100vh - 6rem, 60rem) * 1113 / 1670));
+  }
+  .brand { align-self: start; padding-top: 1rem; }
+  .page > footer { align-self: end; }
 }
 
 .label {
@@ -56,11 +90,10 @@ html, body {
 .brand .label { font-size: 0.75rem; letter-spacing: 0.4em; color: var(--charcoal); }
 
 main {
-  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 4rem 0;
+  padding: 3rem 0;
 }
 
 .lede {

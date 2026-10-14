@@ -32,8 +32,18 @@ export default function Home() {
         <meta name="description" content="A considered approach to getting dressed. Relaxed tailoring, thoughtful proportions." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#f3f0e9" />
+        <meta property="og:image" content="/hero.jpg" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <figure className="hero">
+        <img
+          src="/hero.jpg"
+          width="1113"
+          height="1670"
+          alt="A man walks along a sunlit garden path, a grey linen jacket over his shoulder."
+        />
+      </figure>
 
       <header className="brand">
         <h1>Finest Form</h1>
