@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Strikeline</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <canvas id="game"></canvas>
+
+    <div id="hud" class="hidden">
+      <div id="scope" class="hidden"><div class="reticle"></div></div>
+      <div id="damage-flash"></div>
+      <div id="lowhp"></div>
+      <div id="scorebar">
+        <div class="team blue"><span class="name">BLUE</span><span id="score-blue">0</span></div>
+        <div class="mid"><div id="timer">10:00</div><div id="score-limit"></div></div>
+        <div class="team red"><span id="score-red">0</span><span class="name">RED</span></div>
+      </div>
+      <div id="killfeed"></div>
+
+      <div id="crosshair"><i class="t"></i><i class="b"></i><i class="l"></i><i class="r"></i><i class="c"></i></div>
+      <div id="hitmarker"><i></i><i></i><i></i><i></i></div>
+      <div id="reddot" class="hidden"></div>
+      <div id="damage-dirs"></div>
+
+      <div id="health">
+        <div class="label">HEALTH <span id="health-num">100</span></div>
+        <div class="bar"><div id="health-fill"></div></div>
+      </div>
+      <div id="ammo">
+        <div id="weapon-name"></div>
+        <div><span id="ammo-mag">30</span><span class="sep">/</span><span id="ammo-reserve">120</span></div>
+      </div>
+      <div id="prompts"></div>
+      <div id="popup"></div>
+      <div id="center-msg" class="hidden"></div>
+      <div id="breath" class="hidden"><span>BREATH</span><div class="bar"><div id="breath-fill"></div></div></div>
+      <div id="scoreboard" class="hidden"></div>
+    </div>
+
+    <div id="menu" class="menu hidden"></div>
+    <div id="loading">Loading…</div>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
