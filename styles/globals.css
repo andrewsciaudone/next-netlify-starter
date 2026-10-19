@@ -158,6 +158,14 @@ button:disabled { opacity: 0.6; cursor: default; }
 .confirm { margin-top: 1.75rem; color: var(--navy); }
 .error { flex-basis: 100%; color: #8a3b2e; }
 
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .sr-only {
   position: absolute;
   width: 1px; height: 1px;
