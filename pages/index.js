@@ -31,10 +31,12 @@ export default function Home() {
   return (
     <div className="page">
       <Head>
-        <title>Finest Form — Boston</title>
+        <title>Made-to-Measure Relaxed Tailoring in Boston</title>
         <meta name="description" content="A considered approach to getting dressed. Relaxed tailoring, thoughtful proportions." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#f3f0e9" />
+        <meta property="og:title" content="Made-to-Measure Relaxed Tailoring in Boston" />
+        <meta property="og:site_name" content="Finest Form" />
         <meta property="og:image" content="/hero.jpg" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
