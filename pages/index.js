@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 const PRICING = [
   { origin: 'Made in New York', price: '$2,700' },
-  { origin: 'Made overseas', price: '$1,500' },
+  { origin: 'Made Overseas', price: '$1,500' },
 ]
 
 export default function Home() {
