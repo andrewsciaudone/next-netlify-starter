@@ -14,6 +14,19 @@ function findToken() {
   return null
 }
 
+// Bots fill the hidden "company" field, post straight to this route without
+// the form's timing, submit faster than a person can type, or use Gmail
+// addresses broken up with dots (Gmail ignores dots, so bots use them to
+// make many "different" addresses).
+function looksLikeSpam(body, email) {
+  if (String(body?.company || '').trim()) return true
+  const elapsed = Number(body?.elapsed)
+  if (!Number.isFinite(elapsed) || elapsed < 2000) return true
+  const [local, domain] = email.split('@')
+  if ((domain === 'gmail.com' || domain === 'googlemail.com') && (local.match(/\./g) || []).length >= 4) return true
+  return false
+}
+
 function notion(token, path, body) {
   return fetch(`https://api.notion.com/v1/${path}`, {
     method: body ? 'POST' : 'GET',
@@ -58,6 +71,11 @@ export default async function handler(req, res) {
   const email = String(req.body?.email || '').trim().toLowerCase()
   if (!EMAIL_RE.test(email) || email.length > 254) {
     return res.status(400).json({ error: 'Invalid email' })
+  }
+  if (looksLikeSpam(req.body, email)) {
+    // Answer as if it worked so bots don't learn to adapt.
+    console.warn('Dropped likely spam signup')
+    return res.status(200).json({ ok: true })
   }
   const token = findToken()
   if (!token) {
