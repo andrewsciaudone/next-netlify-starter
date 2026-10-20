@@ -68,6 +68,12 @@ export default function Home() {
               </div>
             ))}
           </dl>
+          <dl className="inquire">
+            <div className="row">
+              <dt>Private Wardrobe</dt>
+              <dd>Inquire for pricing</dd>
+            </div>
+          </dl>
         </section>
 
         <p className="body">

@@ -116,6 +116,9 @@ main {
 }
 .pricing dt { font-size: 1.125rem; }
 .pricing dd { margin: 0; font-size: 1.125rem; font-feature-settings: 'lnum'; }
+.pricing .inquire { margin-top: 1.75rem; }
+.pricing .inquire .row { border-top: 1px solid var(--rule); }
+.pricing .inquire dd { font-style: italic; color: var(--charcoal); }
 
 form {
   margin-top: 1.75rem;
