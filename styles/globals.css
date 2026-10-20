@@ -119,6 +119,14 @@ main {
 .pricing .inquire { margin-top: 1.75rem; }
 .pricing .inquire .row { border-top: 1px solid var(--rule); }
 .pricing .inquire dd { font-style: italic; color: var(--charcoal); }
+.pricing .inquire a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 4px;
+  transition: text-decoration-color 300ms var(--ease);
+}
+.pricing .inquire a:hover { text-decoration-color: currentColor; }
 
 form {
   margin-top: 1.75rem;

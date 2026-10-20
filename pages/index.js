@@ -71,7 +71,9 @@ export default function Home() {
           <dl className="inquire">
             <div className="row">
               <dt>Private Wardrobe</dt>
-              <dd>Inquire for pricing</dd>
+              <dd>
+                <a href="mailto:andrew@finest-form.com?subject=Private%20Wardrobe%20inquiry">Inquire for pricing</a>
+              </dd>
             </div>
           </dl>
         </section>
