@@ -118,7 +118,7 @@ export default function Home() {
         )}
       </main>
 
-      <footer className="label muted">© {new Date().getFullYear()} Finest Form</footer>
+      <footer className="label muted">© {new Date().getFullYear()} Finest Form LLC</footer>
     </div>
   )
 }
