@@ -38,7 +38,9 @@ export default function Home() {
         <meta property="og:title" content="Made-to-Measure Relaxed Tailoring in Boston" />
         <meta property="og:site_name" content="Finest Form" />
         <meta property="og:image" content="/hero.jpg" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" sizes="48x48" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </Head>
 
       <figure className="hero">
