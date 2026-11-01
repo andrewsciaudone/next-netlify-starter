@@ -2,8 +2,10 @@ import Head from 'next/head'
 import { useEffect, useRef, useState } from 'react'
 
 const PRICING = [
-  { origin: 'Made in New York', price: '$2,700' },
-  { origin: 'Made Overseas', price: '$2,000' },
+  { item: 'Two-Piece Suit', price: '$3,000' },
+  { item: 'Jacket', price: '$2,295' },
+  { item: 'Pants', price: '$885' },
+  { item: 'Overcoat', price: '$3,000' },
 ]
 
 export default function Home() {
@@ -61,11 +63,11 @@ export default function Home() {
         </p>
 
         <section className="pricing" aria-label="Pricing">
-          <p className="label muted">Two-piece suit, starting at</p>
+          <p className="label muted">Made in New York, starting at</p>
           <dl>
             {PRICING.map((p) => (
-              <div key={p.origin} className="row">
-                <dt>{p.origin}</dt>
+              <div key={p.item} className="row">
+                <dt>{p.item}</dt>
                 <dd>{p.price}</dd>
               </div>
             ))}
