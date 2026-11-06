@@ -166,7 +166,14 @@ button {
 button:hover { background: var(--navy); }
 button:disabled { opacity: 0.6; cursor: default; }
 
-.confirm { margin-top: 1.75rem; color: var(--navy); }
+.confirm {
+  margin: 1.75rem 0 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.375rem;
+  line-height: 1.4;
+  color: var(--navy);
+}
 .error { flex-basis: 100%; color: #8a3b2e; }
 
 .trap {
