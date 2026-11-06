@@ -87,7 +87,7 @@ export default function Home() {
         </p>
 
         {status === 'done' ? (
-          <p className="label confirm" role="status">Thank you — we’ll be in touch.</p>
+          <p className="confirm" role="status">Thank you for signing up — Andrew will reach out to you personally.</p>
         ) : (
           <form onSubmit={submit}>
             <div className="trap" aria-hidden="true">
