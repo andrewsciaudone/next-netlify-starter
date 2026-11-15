@@ -14,7 +14,7 @@ const INCLUDED = [
     title: 'Construction',
     items: [
       ['Made in New York', 'Cut and sewn by hand in a New York workroom'],
-      ['Canvassed front', 'A floating canvas that shapes to you with wear'],
+      ['Soft horsehair canvassing', 'Natural structure that shapes to you with wear'],
       ['Your own pattern', 'Kept on file, so every order starts from your fit'],
     ],
   },
