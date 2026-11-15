@@ -63,6 +63,10 @@ main { grid-area: main; }
     justify-self: end;
     /* Size to the viewport height while keeping the photo's full frame */
     width: min(100%, calc(clamp(34rem, 100vh - 6rem, 60rem) * 1113 / 1670));
+    /* Keep the photo in view while the longer column scrolls */
+    position: sticky;
+    top: 3rem;
+    align-self: start;
   }
   .page > footer { align-self: end; }
 }
@@ -127,6 +131,25 @@ main {
   transition: text-decoration-color 300ms var(--ease);
 }
 .pricing .inquire a:hover { text-decoration-color: currentColor; }
+
+.included {
+  margin: 0 0 2.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--rule);
+}
+.included .group { margin-top: 1.75rem; }
+.included h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.2;
+}
+.included ul { list-style: none; margin: 0; padding: 0; }
+.included li { padding: 0.5rem 0; }
+.included .name { display: block; font-size: 1.0625rem; }
+.included .detail { display: block; font-size: 0.9375rem; line-height: 1.5; color: var(--muted); }
 
 form {
   margin-top: 1.75rem;

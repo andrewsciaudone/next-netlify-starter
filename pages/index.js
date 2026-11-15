@@ -1,6 +1,33 @@
 import Head from 'next/head'
 import { useEffect, useRef, useState } from 'react'
 
+const INCLUDED = [
+  {
+    title: 'Cloth',
+    items: [
+      ['American Woolen', 'Worsteds and flannels woven in Connecticut'],
+      ['Fox Brothers', 'English flannel from Somerset, since 1772'],
+      ['Holland & Sherry', 'Savile Row cloth merchant, since 1836'],
+    ],
+  },
+  {
+    title: 'Construction',
+    items: [
+      ['Made in New York', 'Cut and sewn by hand in a New York workroom'],
+      ['Canvassed front', 'A floating canvas that shapes to you with wear'],
+      ['Your own pattern', 'Kept on file, so every order starts from your fit'],
+    ],
+  },
+  {
+    title: 'Fitting',
+    items: [
+      ['Private appointment', 'At your office, home or club, at a time that suits you'],
+      ['Measurements & consultation', 'Cloth, cut and details chosen together'],
+      ['Fittings until it’s right', 'Adjustments included, with a final fitting before delivery'],
+    ],
+  },
+]
+
 const PRICING = [
   { item: 'Two-Piece Suit', price: '$3,000' },
   { item: 'Jacket', price: '$2,295' },
@@ -80,6 +107,23 @@ export default function Home() {
               </dd>
             </div>
           </dl>
+        </section>
+
+        <section className="included" aria-labelledby="included-title">
+          <p className="label muted" id="included-title">Included in every garment</p>
+          {INCLUDED.map((group) => (
+            <div key={group.title} className="group">
+              <h2>{group.title}</h2>
+              <ul>
+                {group.items.map(([name, detail]) => (
+                  <li key={name}>
+                    <span className="name">{name}</span>
+                    <span className="detail">{detail}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </section>
 
         <p className="body">
