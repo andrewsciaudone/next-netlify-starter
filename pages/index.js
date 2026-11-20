@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useEffect, useRef, useState } from 'react'
+import { Lockup, Monogram, Wordmark } from '@components/Logos'
 
 const INCLUDED = [
   {
@@ -89,9 +90,9 @@ export default function Home() {
       <header className="masthead">
         <div className="wrap masthead-inner">
           <a href="#top" className="mark-link" aria-label="Finest Form, home">
-            <img src="/brand/mark.png" alt="" width="640" height="692" />
+            <Monogram />
           </a>
-          <img src="/brand/wordmark.png" alt="" width="1600" height="112" className={`masthead-word${lockupGone ? ' shown' : ''}`} />
+          <Wordmark aria-hidden="true" className={`masthead-word${lockupGone ? ' shown' : ''}`} />
           <a href="#waitlist" className="masthead-join">Join</a>
         </div>
       </header>
@@ -100,7 +101,7 @@ export default function Home() {
         <section className="spread wrap" aria-label="Finest Form, Boston">
           <div className="opening">
             <h1>
-              <img ref={lockupRef} src="/brand/lockup.png" alt="Finest Form, Boston" width="2000" height="296" className="lockup" />
+              <Lockup ref={lockupRef} className="lockup" />
             </h1>
             <p className="made">Made to Measure</p>
             <p className="tagline">
@@ -114,7 +115,7 @@ export default function Home() {
         </section>
 
         <section className="pricing wrap" id="pricing" aria-labelledby="pricing-title">
-          <img src="/brand/mark.png" alt="" width="640" height="692" className="ornament" />
+          <Monogram className="ornament" />
           <h2 className="section-title" id="pricing-title">Made in New York</h2>
           <p className="small-caps">Starting at</p>
           <dl>
@@ -155,7 +156,7 @@ export default function Home() {
 
         <section className="waitlist wrap" id="waitlist" aria-labelledby="waitlist-title">
           <div className="card">
-            <img src="/brand/mark.png" alt="" width="640" height="692" className="seal" />
+            <Monogram className="seal" />
             <h2 className="section-title" id="waitlist-title">The First Look</h2>
             <p className="body">
               We’re refining our offering. Leave your email for the first look and upcoming appointment availability.
@@ -201,7 +202,7 @@ export default function Home() {
 
       <footer className="footer">
         <div className="wrap footer-inner">
-          <img src="/brand/wordmark.png" alt="Finest Form" width="1600" height="112" className="footer-word" />
+          <Wordmark className="footer-word" />
           <p className="small-caps">Boston · <a href="mailto:andrew@finest-form.com">andrew@finest-form.com</a></p>
           <p className="small-caps legal">© {new Date().getFullYear()} Finest Form LLC</p>
         </div>

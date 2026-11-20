@@ -28,7 +28,7 @@ html, body {
 ::selection { background: var(--ink); color: var(--paper); }
 :focus-visible { outline: 1px solid var(--ink); outline-offset: 3px; }
 a { color: inherit; }
-img { display: block; max-width: 100%; }
+img, svg { display: block; max-width: 100%; }
 
 .wrap {
   width: 100%;
@@ -73,7 +73,7 @@ img { display: block; max-width: 100%; }
   align-items: center;
   height: 4rem;
 }
-.mark-link img { height: 2.25rem; width: auto; }
+.mark-link svg { height: 2.25rem; width: auto; }
 .masthead-word {
   height: 0.7rem;
   width: auto;
@@ -263,7 +263,7 @@ button:disabled { opacity: 0.6; cursor: default; }
 @media (min-width: 900px) {
   .wrap { padding-inline: 2.5rem; }
   .masthead-inner { height: 4.75rem; }
-  .mark-link img { height: 2.75rem; }
+  .mark-link svg { height: 2.75rem; }
   .masthead-word { height: 0.9rem; }
   .spread { padding-top: 5.5rem; padding-bottom: 6rem; }
   .tagline { font-size: 1.0625rem; letter-spacing: 0.14em; }
