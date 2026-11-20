@@ -90,15 +90,15 @@ img { display: block; max-width: 100%; }
 /* Opening spread, after the booklet: illustration left, lockup right */
 .spread {
   display: grid;
-  gap: 2.5rem;
-  padding-top: 2.5rem;
-  padding-bottom: 4rem;
+  gap: 1.5rem;
+  padding-top: 1.75rem;
+  padding-bottom: 3.5rem;
   text-align: center;
 }
 .leaf-left { display: flex; flex-direction: column; align-items: center; }
 .illustration {
   width: auto;
-  height: 17rem;
+  height: 11rem;
   mix-blend-mode: multiply;
 }
 .caption {
@@ -109,7 +109,7 @@ img { display: block; max-width: 100%; }
   text-transform: uppercase;
 }
 .leaf-right h1 { margin: 0; }
-.lockup { width: min(100%, 24rem); height: auto; margin: 0 auto; }
+.lockup { width: min(100%, 15rem); height: auto; margin: 0 auto; }
 .made {
   margin: 1.75rem 0 1rem;
   font-size: 1.25rem;
