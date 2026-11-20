@@ -42,6 +42,20 @@ export default function Home() {
   const loadedAt = useRef(0)
   useEffect(() => { loadedAt.current = Date.now() }, [])
 
+  // The header wordmark appears only once the big lockup has scrolled away,
+  // so the name never shows twice on the same screen.
+  const lockupRef = useRef(null)
+  const [lockupGone, setLockupGone] = useState(false)
+  useEffect(() => {
+    const el = lockupRef.current
+    if (!el || !('IntersectionObserver' in window)) return setLockupGone(true)
+    const io = new IntersectionObserver(([entry]) => setLockupGone(!entry.isIntersecting), {
+      rootMargin: '-80px 0px 0px 0px',
+    })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
   async function submit(e) {
     e.preventDefault()
     setStatus('sending')
@@ -77,7 +91,7 @@ export default function Home() {
           <a href="#top" className="mark-link" aria-label="Finest Form, home">
             <img src="/brand/mark.png" alt="" width="640" height="692" />
           </a>
-          <img src="/brand/wordmark.png" alt="Finest Form" width="1600" height="112" className="masthead-word" />
+          <img src="/brand/wordmark.png" alt="" width="1600" height="112" className={`masthead-word${lockupGone ? ' shown' : ''}`} />
           <a href="#waitlist" className="masthead-join">Join</a>
         </div>
       </header>
@@ -86,7 +100,7 @@ export default function Home() {
         <section className="spread wrap" aria-label="Finest Form, Boston">
           <div className="opening">
             <h1>
-              <img src="/brand/lockup.png" alt="Finest Form, Boston" width="2000" height="296" className="lockup" />
+              <img ref={lockupRef} src="/brand/lockup.png" alt="Finest Form, Boston" width="2000" height="296" className="lockup" />
             </h1>
             <p className="made">Made to Measure</p>
             <p className="tagline">

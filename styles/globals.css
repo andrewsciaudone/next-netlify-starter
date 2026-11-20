@@ -74,7 +74,14 @@ img { display: block; max-width: 100%; }
   height: 4rem;
 }
 .mark-link img { height: 2.25rem; width: auto; }
-.masthead-word { height: 0.7rem; width: auto; }
+.masthead-word {
+  height: 0.7rem;
+  width: auto;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 400ms var(--ease), transform 400ms var(--ease);
+}
+.masthead-word.shown { opacity: 1; transform: none; }
 .masthead-join {
   justify-self: end;
   font-variant: all-small-caps;
