@@ -87,29 +87,13 @@ img { display: block; max-width: 100%; }
 }
 .masthead-join:hover { background: var(--ink); color: var(--paper); }
 
-/* Opening spread, after the booklet: illustration left, lockup right */
+/* Opening: the lockup leads, set like the brand board */
 .spread {
-  display: grid;
-  gap: 1.5rem;
   padding-top: 2.75rem;
   padding-bottom: 3.5rem;
   text-align: center;
 }
-/* The illustration shows on desktop only; on phones the lockup opens the page */
-.leaf-left { display: none; }
-.illustration {
-  width: auto;
-  height: 11rem;
-  mix-blend-mode: multiply;
-}
-.caption {
-  display: none;
-  margin: 1.5rem 0 0;
-  font-size: 0.6875rem;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-}
-.leaf-right h1 { margin: 0; }
+.opening h1 { margin: 0; }
 .lockup { width: min(100%, 18rem); height: auto; margin: 0 auto; }
 .made {
   margin: 1.75rem 0 1rem;
@@ -274,24 +258,9 @@ button:disabled { opacity: 0.6; cursor: default; }
   .masthead-inner { height: 4.75rem; }
   .mark-link img { height: 2.75rem; }
   .masthead-word { height: 0.9rem; }
-  .spread {
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
-    padding-top: 4rem;
-    padding-bottom: 5rem;
-    align-items: center;
-  }
-  .leaf { padding: 2rem 3.5rem; }
-  .caption { display: block; }
+  .spread { padding-top: 5.5rem; padding-bottom: 6rem; }
   .tagline { font-size: 1.0625rem; letter-spacing: 0.14em; }
-  .leaf-left {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-right: 1px solid var(--rule);
-  }
-  .illustration { height: 26rem; }
-  .lockup { width: 26rem; }
+  .lockup { width: 30rem; }
   .columns { grid-template-columns: repeat(3, 1fr); gap: 0; }
   .column { padding: 0 2rem; }
   .column + .column { border-left: 1px solid var(--rule); }

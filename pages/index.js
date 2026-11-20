@@ -84,17 +84,7 @@ export default function Home() {
 
       <main id="top">
         <section className="spread wrap" aria-label="Finest Form, Boston">
-          <div className="leaf leaf-left">
-            <img
-              src="/brand/illustration.png"
-              width="900"
-              height="2027"
-              alt="An engraving of a double-breasted jacket on a tailor’s dress form, trousers over the rail."
-              className="illustration"
-            />
-            <p className="caption">Finest Form</p>
-          </div>
-          <div className="leaf leaf-right">
+          <div className="opening">
             <h1>
               <img src="/brand/lockup.png" alt="Finest Form, Boston" width="2000" height="296" className="lockup" />
             </h1>
