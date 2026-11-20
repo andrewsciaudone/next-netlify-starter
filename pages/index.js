@@ -58,12 +58,12 @@ export default function Home() {
   }
 
   return (
-    <div className="page">
+    <div className="site">
       <Head>
         <title>Made-to-Measure Relaxed Tailoring in Boston</title>
         <meta name="description" content="A considered approach to getting dressed. Relaxed tailoring, thoughtful proportions." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#f3f0e9" />
+        <meta name="theme-color" content="#faf9f6" />
         <meta property="og:title" content="Made-to-Measure Relaxed Tailoring in Boston" />
         <meta property="og:site_name" content="Finest Form" />
         <meta property="og:image" content="/hero.jpg" />
@@ -72,101 +72,133 @@ export default function Home() {
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </Head>
 
-      <figure className="hero">
-        <img
-          src="/hero.jpg"
-          width="1113"
-          height="1670"
-          alt="A man walks along a sunlit garden path, a grey linen jacket over his shoulder."
-        />
-      </figure>
+      <header className="masthead">
+        <div className="wrap masthead-inner">
+          <a href="#top" className="brand" aria-label="Finest Form, home">
+            <img src="/logo-mark.png" alt="" width="179" height="192" />
+            <span className="wordmark">Finest Form</span>
+          </a>
+          <nav aria-label="Sections">
+            <a href="#pricing">Pricing</a>
+            <a href="#included">The Garment</a>
+            <a href="#waitlist" className="nav-cta">Join</a>
+          </nav>
+        </div>
+      </header>
 
-      <main>
-        <h1 className="sr-only">Finest Form</h1>
-        <p className="label eyebrow">Boston</p>
-        <p className="lede">A considered approach to getting dressed.</p>
-        <p className="body">
-          Relaxed tailoring. Thoughtful proportions. A wardrobe built around the way you live.
-        </p>
+      <main id="top">
+        <section className="hero wrap">
+          <figure className="hero-photo">
+            <img
+              src="/hero.jpg"
+              width="1113"
+              height="1670"
+              alt="A man walks along a sunlit garden path, a grey linen jacket over his shoulder."
+            />
+          </figure>
+          <div className="hero-copy">
+            <p className="kicker">Made-to-Measure · Boston</p>
+            <h1>A considered approach to getting dressed.</h1>
+            <p className="body">
+              Relaxed tailoring. Thoughtful proportions. A wardrobe built around the way you live.
+            </p>
+            <a href="#waitlist" className="button">Stay informed</a>
+          </div>
+        </section>
 
-        <section className="pricing" aria-label="Pricing">
-          <p className="label muted">Made in New York, starting at</p>
-          <dl>
-            {PRICING.map((p) => (
-              <div key={p.item} className="row">
-                <dt>{p.item}</dt>
-                <dd>{p.price}</dd>
+        <section className="pricing wrap" id="pricing" aria-labelledby="pricing-title">
+          <div className="frame">
+            <p className="kicker" id="pricing-title">Made in New York, starting at</p>
+            <dl>
+              {PRICING.map((p) => (
+                <div key={p.item} className="row">
+                  <dt>{p.item}</dt>
+                  <dd>{p.price}</dd>
+                </div>
+              ))}
+              <div className="row inquire">
+                <dt>Private Wardrobe</dt>
+                <dd>
+                  <a href="mailto:andrew@finest-form.com?subject=Private%20Wardrobe%20inquiry">Inquire for pricing</a>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <section className="included wrap" id="included" aria-labelledby="included-title">
+          <p className="kicker" id="included-title">Included in every garment</p>
+          <div className="columns">
+            {INCLUDED.map((group, i) => (
+              <div key={group.title} className="frame column">
+                <span className="numeral">{['I', 'II', 'III'][i]}</span>
+                <h2>{group.title}</h2>
+                <ul>
+                  {group.items.map(([name, detail]) => (
+                    <li key={name}>
+                      <span className="name">{name}</span>
+                      <span className="detail">{detail}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
-          </dl>
-          <dl className="inquire">
-            <div className="row">
-              <dt>Private Wardrobe</dt>
-              <dd>
-                <a href="mailto:andrew@finest-form.com?subject=Private%20Wardrobe%20inquiry">Inquire for pricing</a>
-              </dd>
-            </div>
-          </dl>
+          </div>
         </section>
 
-        <section className="included" aria-labelledby="included-title">
-          <p className="label muted" id="included-title">Included in every garment</p>
-          {INCLUDED.map((group) => (
-            <div key={group.title} className="group">
-              <h2>{group.title}</h2>
-              <ul>
-                {group.items.map(([name, detail]) => (
-                  <li key={name}>
-                    <span className="name">{name}</span>
-                    <span className="detail">{detail}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </section>
+        <section className="waitlist wrap" id="waitlist" aria-labelledby="waitlist-title">
+          <div className="frame frame-double">
+            <img src="/logo-mark.png" alt="" width="179" height="192" className="seal" />
+            <h2 id="waitlist-title">The first look</h2>
+            <p className="body">
+              We’re refining our offering. Leave your email for the first look and upcoming appointment availability.
+            </p>
 
-        <p className="body">
-          We’re refining our offering. Leave your email for the first look and upcoming appointment availability.
-        </p>
-
-        {status === 'done' ? (
-          <p className="confirm" role="status">Thank you for signing up — Andrew will reach out to you personally.</p>
-        ) : (
-          <form onSubmit={submit}>
-            <div className="trap" aria-hidden="true">
-              <label htmlFor="company">Company</label>
-              <input
-                id="company"
-                name="company"
-                type="text"
-                tabIndex={-1}
-                autoComplete="off"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-              />
-            </div>
-            <label htmlFor="email" className="sr-only">Email</label>
-            <input
-              id="email"
-              type="email"
-              required
-              autoComplete="email"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <button type="submit" disabled={status === 'sending'}>
-              {status === 'sending' ? 'Sending…' : 'Stay informed'}
-            </button>
-            {status === 'error' && (
-              <p className="label error" role="alert">Something went wrong. Please try again.</p>
+            {status === 'done' ? (
+              <p className="confirm" role="status">Thank you for signing up — Andrew will reach out to you personally.</p>
+            ) : (
+              <form onSubmit={submit}>
+                <div className="trap" aria-hidden="true">
+                  <label htmlFor="company">Company</label>
+                  <input
+                    id="company"
+                    name="company"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={company}
+                    onChange={(e) => setCompany(e.target.value)}
+                  />
+                </div>
+                <label htmlFor="email" className="sr-only">Email</label>
+                <input
+                  id="email"
+                  type="email"
+                  required
+                  autoComplete="email"
+                  placeholder="Email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <button type="submit" disabled={status === 'sending'}>
+                  {status === 'sending' ? 'Sending…' : 'Stay informed'}
+                </button>
+                {status === 'error' && (
+                  <p className="error" role="alert">Something went wrong. Please try again.</p>
+                )}
+              </form>
             )}
-          </form>
-        )}
+          </div>
+        </section>
       </main>
 
-      <footer className="label muted">© {new Date().getFullYear()} Finest Form LLC</footer>
+      <footer className="footer">
+        <div className="wrap footer-inner">
+          <img src="/logo-mark.png" alt="" width="179" height="192" />
+          <p>© {new Date().getFullYear()} Finest Form LLC · Boston</p>
+          <a href="mailto:andrew@finest-form.com">andrew@finest-form.com</a>
+        </div>
+      </footer>
     </div>
   )
 }
