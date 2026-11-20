@@ -109,7 +109,6 @@ export default function Home() {
               Thoughtful proportions.<br />
               A wardrobe built around the way you live.
             </p>
-            <p className="lede">A considered approach to getting dressed.</p>
             <a href="#waitlist" className="place">Stay informed</a>
           </div>
         </section>

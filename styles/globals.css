@@ -125,7 +125,7 @@ img, svg { display: block; max-width: 100%; }
 }
 .place {
   display: inline-block;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
   font-style: italic;
   font-size: 1.125rem;
   text-underline-offset: 5px;
