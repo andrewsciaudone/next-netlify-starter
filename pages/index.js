@@ -80,7 +80,7 @@ export default function Home() {
         <meta name="theme-color" content="#faf7f0" />
         <meta property="og:title" content="Made-to-Measure Relaxed Tailoring in Boston" />
         <meta property="og:site_name" content="Finest Form" />
-        <meta property="og:image" content="/hero.jpg" />
+        <meta property="og:image" content="/og.png" />
         <link rel="icon" href="/favicon.ico" sizes="48x48" />
         <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
