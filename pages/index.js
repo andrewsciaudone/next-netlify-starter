@@ -63,7 +63,7 @@ export default function Home() {
         <title>Made-to-Measure Relaxed Tailoring in Boston</title>
         <meta name="description" content="A considered approach to getting dressed. Relaxed tailoring, thoughtful proportions." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#faf9f6" />
+        <meta name="theme-color" content="#faf7f0" />
         <meta property="og:title" content="Made-to-Measure Relaxed Tailoring in Boston" />
         <meta property="og:site_name" content="Finest Form" />
         <meta property="og:image" content="/hero.jpg" />
@@ -74,65 +74,68 @@ export default function Home() {
 
       <header className="masthead">
         <div className="wrap masthead-inner">
-          <a href="#top" className="brand" aria-label="Finest Form, home">
-            <img src="/logo-mark.png" alt="" width="179" height="192" />
-            <span className="wordmark">Finest Form</span>
+          <a href="#top" className="mark-link" aria-label="Finest Form, home">
+            <img src="/brand/mark.png" alt="" width="640" height="692" />
           </a>
-          <nav aria-label="Sections">
-            <a href="#pricing">Pricing</a>
-            <a href="#included">The Garment</a>
-            <a href="#waitlist" className="nav-cta">Join</a>
-          </nav>
+          <img src="/brand/wordmark.png" alt="Finest Form" width="1600" height="112" className="masthead-word" />
+          <a href="#waitlist" className="masthead-join">Join</a>
         </div>
       </header>
 
       <main id="top">
-        <section className="hero wrap">
-          <figure className="hero-photo">
+        <section className="spread wrap" aria-label="Finest Form, Boston">
+          <div className="leaf leaf-left">
             <img
-              src="/hero.jpg"
-              width="1113"
-              height="1670"
-              alt="A man walks along a sunlit garden path, a grey linen jacket over his shoulder."
+              src="/brand/illustration.png"
+              width="900"
+              height="2027"
+              alt="An engraving of a double-breasted jacket on a tailor’s dress form, trousers over the rail."
+              className="illustration"
             />
-          </figure>
-          <div className="hero-copy">
-            <p className="kicker">Made-to-Measure · Boston</p>
-            <h1>A considered approach to getting dressed.</h1>
-            <p className="body">
-              Relaxed tailoring. Thoughtful proportions. A wardrobe built around the way you live.
+            <p className="caption">Finest Form</p>
+          </div>
+          <div className="leaf leaf-right">
+            <h1>
+              <img src="/brand/lockup.png" alt="Finest Form, Boston" width="2000" height="296" className="lockup" />
+            </h1>
+            <p className="made">Made to Measure</p>
+            <p className="tagline">
+              Relaxed tailoring.<br />
+              Thoughtful proportions.<br />
+              A wardrobe built around the way you live.
             </p>
-            <a href="#waitlist" className="button">Stay informed</a>
+            <p className="lede">A considered approach to getting dressed.</p>
+            <a href="#waitlist" className="place">Stay informed</a>
           </div>
         </section>
 
         <section className="pricing wrap" id="pricing" aria-labelledby="pricing-title">
-          <div className="frame">
-            <p className="kicker" id="pricing-title">Made in New York, starting at</p>
-            <dl>
-              {PRICING.map((p) => (
-                <div key={p.item} className="row">
-                  <dt>{p.item}</dt>
-                  <dd>{p.price}</dd>
-                </div>
-              ))}
-              <div className="row inquire">
-                <dt>Private Wardrobe</dt>
-                <dd>
-                  <a href="mailto:andrew@finest-form.com?subject=Private%20Wardrobe%20inquiry">Inquire for pricing</a>
-                </dd>
+          <img src="/brand/mark.png" alt="" width="640" height="692" className="ornament" />
+          <h2 className="section-title" id="pricing-title">Made in New York</h2>
+          <p className="small-caps">Starting at</p>
+          <dl>
+            {PRICING.map((p) => (
+              <div key={p.item} className="row">
+                <dt>{p.item}</dt>
+                <dd>{p.price}</dd>
               </div>
-            </dl>
-          </div>
+            ))}
+            <div className="row inquire">
+              <dt>Private Wardrobe</dt>
+              <dd>
+                <a href="mailto:andrew@finest-form.com?subject=Private%20Wardrobe%20inquiry">Inquire for pricing</a>
+              </dd>
+            </div>
+          </dl>
         </section>
 
         <section className="included wrap" id="included" aria-labelledby="included-title">
-          <p className="kicker" id="included-title">Included in every garment</p>
+          <h2 className="section-title" id="included-title">Included in Every Garment</h2>
           <div className="columns">
             {INCLUDED.map((group, i) => (
-              <div key={group.title} className="frame column">
+              <div key={group.title} className="column">
                 <span className="numeral">{['I', 'II', 'III'][i]}</span>
-                <h2>{group.title}</h2>
+                <h3>{group.title}</h3>
                 <ul>
                   {group.items.map(([name, detail]) => (
                     <li key={name}>
@@ -147,9 +150,9 @@ export default function Home() {
         </section>
 
         <section className="waitlist wrap" id="waitlist" aria-labelledby="waitlist-title">
-          <div className="frame frame-double">
-            <img src="/logo-mark.png" alt="" width="179" height="192" className="seal" />
-            <h2 id="waitlist-title">The first look</h2>
+          <div className="card">
+            <img src="/brand/mark.png" alt="" width="640" height="692" className="seal" />
+            <h2 className="section-title" id="waitlist-title">The First Look</h2>
             <p className="body">
               We’re refining our offering. Leave your email for the first look and upcoming appointment availability.
             </p>
@@ -194,9 +197,9 @@ export default function Home() {
 
       <footer className="footer">
         <div className="wrap footer-inner">
-          <img src="/logo-mark.png" alt="" width="179" height="192" />
-          <p>© {new Date().getFullYear()} Finest Form LLC · Boston</p>
-          <a href="mailto:andrew@finest-form.com">andrew@finest-form.com</a>
+          <img src="/brand/wordmark.png" alt="Finest Form" width="1600" height="112" className="footer-word" />
+          <p className="small-caps">Boston · <a href="mailto:andrew@finest-form.com">andrew@finest-form.com</a></p>
+          <p className="small-caps legal">© {new Date().getFullYear()} Finest Form LLC</p>
         </div>
       </footer>
     </div>
