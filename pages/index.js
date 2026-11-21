@@ -45,6 +45,23 @@ export default function Home() {
 
   // The header wordmark appears only once the big lockup has scrolled away,
   // so the name never shows twice on the same screen.
+  // "Join" and "Stay informed" scroll the signup card to the middle of the
+  // space below the sticky header, rather than tucking it under the header.
+  const cardRef = useRef(null)
+  function goToWaitlist(e) {
+    const card = cardRef.current
+    if (!card) return
+    e.preventDefault()
+    const header = document.querySelector('.masthead')
+    const headerH = header ? header.getBoundingClientRect().height : 0
+    const room = window.innerHeight - headerH
+    const rect = card.getBoundingClientRect()
+    const offset = headerH + Math.max(16, (room - rect.height) / 2)
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: rect.top + window.scrollY - offset, behavior: reduce ? 'auto' : 'smooth' })
+    history.replaceState(null, '', '#waitlist')
+  }
+
   const lockupRef = useRef(null)
   const [lockupGone, setLockupGone] = useState(false)
   useEffect(() => {
@@ -93,7 +110,7 @@ export default function Home() {
             <Monogram />
           </a>
           <Wordmark aria-hidden="true" className={`masthead-word${lockupGone ? ' shown' : ''}`} />
-          <a href="#waitlist" className="masthead-join">Join</a>
+          <a href="#waitlist" className="masthead-join" onClick={goToWaitlist}>Join</a>
         </div>
       </header>
 
@@ -109,7 +126,7 @@ export default function Home() {
               Thoughtful proportions.<br />
               A wardrobe built around the way you live.
             </p>
-            <a href="#waitlist" className="place">Stay informed</a>
+            <a href="#waitlist" className="place" onClick={goToWaitlist}>Stay informed</a>
           </div>
         </section>
 
@@ -154,7 +171,7 @@ export default function Home() {
         </section>
 
         <section className="waitlist wrap" id="waitlist" aria-labelledby="waitlist-title">
-          <div className="card">
+          <div className="card" ref={cardRef}>
             <Monogram className="seal" />
             <h2 className="section-title" id="waitlist-title">The First Look</h2>
             <p className="body">
