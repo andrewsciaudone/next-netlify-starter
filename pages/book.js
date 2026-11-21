@@ -1,9 +1,8 @@
-// Simple appointment request mockup. The client says what they'd like and
-// roughly when suits them; Andrew replies to set an exact time.
-// Nothing is sent yet: submitting only shows the thank-you message.
+// Simple appointment request. The client says what they'd like and roughly
+// when suits them; /api/book emails it to Andrew, who replies to set a time.
 // (The full scheduler with a calendar is saved in git history, commit 3356b32.)
 import Head from 'next/head'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Monogram, Wordmark } from '@components/Logos'
 
 const KINDS = ['First appointment', 'Fitting', 'Not sure yet']
@@ -41,14 +40,28 @@ export default function Book() {
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [notes, setNotes] = useState('')
-  const [sent, setSent] = useState(false)
+  const [company, setCompany] = useState('') // spam trap: hidden from people
+  const [status, setStatus] = useState('idle')
+  const loadedAt = useRef(0)
+  useEffect(() => { loadedAt.current = Date.now() }, [])
 
   const ready = name.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
+  const sent = status === 'done'
 
-  function submit(e) {
+  async function submit(e) {
     e.preventDefault()
-    if (!ready) return
-    setSent(true)
+    if (!ready || status === 'sending') return
+    setStatus('sending')
+    try {
+      const res = await fetch('/api/book', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kind, place, times, name, email, phone, notes, company, elapsed: Date.now() - loadedAt.current }),
+      })
+      setStatus(res.ok ? 'done' : 'error')
+    } catch {
+      setStatus('error')
+    }
   }
 
   return (
@@ -92,6 +105,10 @@ export default function Book() {
               </p>
 
               <form className="book-form" onSubmit={submit} noValidate>
+                <div className="trap" aria-hidden="true">
+                  <label htmlFor="company">Company</label>
+                  <input id="company" name="company" type="text" tabIndex={-1} autoComplete="off" value={company} onChange={(e) => setCompany(e.target.value)} />
+                </div>
                 <div className="question">
                   <p className="small-caps q">What would you like?</p>
                   <Chips label="What would you like?" options={KINDS} value={kind} onChange={setKind} />
@@ -129,7 +146,14 @@ export default function Book() {
                   </div>
                 </div>
 
-                <button type="submit" disabled={!ready}>Request an appointment</button>
+                <button type="submit" disabled={!ready || status === 'sending'}>
+                  {status === 'sending' ? 'Sending…' : 'Request an appointment'}
+                </button>
+                {status === 'error' && (
+                  <p className="error book-error" role="alert">
+                    Something went wrong. Please try again, or email <a href="mailto:andrew@finest-form.com">andrew@finest-form.com</a>.
+                  </p>
+                )}
               </form>
             </>
           )}
