@@ -29,6 +29,30 @@ const INCLUDED = [
   },
 ]
 
+const STRUCTURED_DATA = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Finest Form",
+    "legalName": "Finest Form LLC",
+    "url": "https://www.finest-form.com",
+    "logo": "https://www.finest-form.com/ff-icon-512.png",
+    "email": "andrew@finest-form.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Boston",
+      "addressRegion": "MA",
+      "addressCountry": "US"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Finest Form",
+    "url": "https://www.finest-form.com"
+  },
+]
+
 const PRICING = [
   { item: 'Two-Piece Suit', price: '$3,000' },
   { item: 'Jacket', price: '$2,295' },
@@ -100,8 +124,14 @@ export default function Home() {
         <meta property="og:site_name" content="Finest Form" />
         <meta property="og:image" content="/og.png" />
         <link rel="icon" href="/favicon.ico" sizes="48x48" />
-        <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/ff-icon-192.png" />
+        <link rel="apple-touch-icon" href="/ff-apple-touch-icon.png" />
+        <link rel="canonical" href="https://www.finest-form.com/" />
+        {/* Tells Google the site's name and logo for search results */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
+        />
       </Head>
 
       <header className="masthead">
